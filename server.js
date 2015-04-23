@@ -6,7 +6,22 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/cmsDB');
+var uriUtil = require('mongodb-uri');
+var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
+                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
+
+//Op#z@jZPtb7vtw%c
+//var db = mongoose.connect('mongodb://journal-db.node-app:Op#z@jZPtb7vtw%c@ds060977.mongolab.com:60977/journal-db');
+var mongodbUri = 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db';
+var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+
+mongoose.connect(mongooseUri, options);
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+
 global.mongoose = mongoose
 global.catagories = ['Culture','Money','Innovation','Career Advancement', 'Other']
 global.catagoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f']
@@ -73,7 +88,7 @@ app.use(function(err, req, res, next) {
 
 
 
-var server = app.listen(8080, function () {
+var server = app.listen(1337, function () {
 
   var host = server.address().address;
   var port = server.address().port;
