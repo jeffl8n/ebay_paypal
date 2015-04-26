@@ -89,8 +89,10 @@ $scope.formData.catagory = 'Select an answer'
 
     // when submitting the add form, send the text to the node API
     $scope.createResponse = function() {
+         console.log('createResponse ');
         $http.post('/api/responses', $scope.formData)
             .success(function(data) {
+                console.log('success: ' + data);
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.responses = data;
                 $scope.responded =true
