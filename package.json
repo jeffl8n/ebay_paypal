@@ -21,7 +21,7 @@
     "mongodb-uri": "~0.9.7"
   },
   "description": "You will need Node.js and some basic modules [I believe you can just 'npm install'](http://stackoverflow.com/questions/8367031/how-do-i-install-package-json-dependencies-in-the-current-directory-using-npm)",
-  "main": "server.js",
+  "main": "app.js",
   "devDependencies": {},
   "repository": {
     "type": "git",
