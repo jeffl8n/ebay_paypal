@@ -1,4 +1,4 @@
-var express = require('express');
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
+
+var express = require('express');
+
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
 
@@ -66,9 +69,9 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
       var message = JSON.stringify(err, ['stack', 'message'], 2)
-  console.error(message)
-    res.status(err.status || 500);
-    res.render('error', {
+      console.error(message)
+      res.status(err.status || 500);
+      res.render('error', {
       message: message,
       error: err
     });
@@ -78,6 +81,8 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  var message = JSON.stringify(err, ['stack', 'message'], 2)//remove
+      console.error(message)//remove
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
