@@ -16,9 +16,13 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
 //Op#z@jZPtb7vtw%c
 //var db = mongoose.connect('mongodb://journal-db.node-app:Op#z@jZPtb7vtw%c@ds060977.mongolab.com:60977/journal-db');
 var mongodbUri = 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db';
-var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+//var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
-mongoose.connect(mongooseUri, options);
+//mongoose.connect(mongooseUri, options);
+
+var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI
+
+mongoose.connect(connectionString);
 
 var db = mongoose.connection;
 
