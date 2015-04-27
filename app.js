@@ -98,4 +98,4 @@ var server = app.listen(port, function () {
 
 });
 */
-module.exports = function(app, mongoose) { };
+module.exports = app //function(app, mongoose) { };
