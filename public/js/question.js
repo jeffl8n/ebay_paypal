@@ -80,7 +80,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     $http.get('/api/responses/qid/'+qid+'/'+$scope.formData.category)
     .success(function(data) {
         $scope.responses = data;
-           // console.log(data);
+           console.log("cat data", data);
        })
     .error(function(data) {
         console.log('Error: ' + data);
@@ -109,17 +109,6 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     });
    };
 
-    // delete a question after checking it
-    $scope.deleteQuestion = function(id) {
-        $http.delete('/api/questions/' + id)
-        .success(function(data) {
-            $scope.questions = data;
-                //console.log(data);
-            })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
-    };
     $scope.vote =function(response){
         var id = response._id
     //console.log(response._id)
