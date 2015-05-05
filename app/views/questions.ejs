@@ -1,0 +1,59 @@
+<% include header %>
+
+<script src="/js/questions.js"></script>
+<style>
+    html                    { overflow-y:scroll; }
+    body                    { padding-top:50px; }
+    #question-list              { margin-bottom:30px; }
+    #question-form              { margin-bottom:30px; }
+</style>
+
+<main ng-app="journalQuestions">
+
+    <!-- SET THE CONTROLLER AND GET ALL QUESTIONS -->
+    <div ng-controller="mainController">
+        <div class="container">
+
+            <!-- HEADER AND TODO COUNT -->
+            <div class="jumbotron text-center">
+                <h1>Journal Questions <span class="label label-info">{{ questions.length }}</span></h1>
+            </div>
+
+            <!-- FORM TO CREATE QUESTIONS -->
+            <div id="question-form" class="row">
+                <div class="col-sm-9 col-sm-offset-1 text-center">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Enter new question..." ng-model="formData.text">
+                        <span class="input-group-btn">
+                            <button type="submit" ng-disabled="!formData.text" class="btn btn-primary btn-lg" ng-click="createQuestion()">Add</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- question LIST -->
+            <div id="question-list" class="row">
+                <div class="col-sm-9 col-sm-offset-1 text-center">
+
+                    <!-- LOOP OVER THE QUESTIONS IN $scope.questions -->
+                    <ul class="list-group">
+                      <li class="list-group-item" ng-repeat="question in questions">
+                        
+                        <label for="q_{{question._id}}">{{ question.text }}</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="q_{{question._id}}" value="{{question._id}}">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="copyLink('q_{{question._id}}')">
+                                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</main>
