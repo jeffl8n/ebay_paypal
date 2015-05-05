@@ -1,6 +1,6 @@
 var activeSlice;
-
-var journalQuestion = angular.module('journalQuestion', ['nvd3']).filter('classy', function(){
+var categoryColorsArray = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
+var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives']).filter('classy', function(){
     return function(text){
         return String(text).replace(/ /mg, '-');
     }
@@ -10,19 +10,24 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     $scope.cat_selected = false;
     $scope.responded = false;
     $scope.formData = {};
-    $scope.pieData = [
-    { key: "One", y: 5 },
-    { key: "Two", y: 2 },
-    { key: "Three", y: 9 },
-    { key: "Four", y: 7 },
-    { key: "Five", y: 4 }
-    ];
+    $scope.pieData = [];
+
+    $scope.colorFunction = function() {
+        return function(d, i) {
+            return categoryColorsArray[i];
+        };
+    }
 
     $scope.$on('elementClick.directive', function(angularEvent, event){
-        console.log( 'pos ',event.pos)
-        activeSlice = event.pos.target
+        console.log( 'elementClick ',event)
+        console.log('switch to ',event.label)
+         $scope.categoryChange(event.label)
 
-        $(activeSlice).toggleClass("selectedSlice");
+    });
+
+    $scope.$on('chartClick.directive', function(angularEvent, event){
+        console.log( 'chartClick ',event)
+
     });
 
 
@@ -59,12 +64,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
-     $scope.pieData = data;
-     console.log("pieData",$scope.chart);
-            /*var chart = d3.select("#chart")
-            for (var property in chart.legend.dispatch) {
-                chart.legend.dispatch[property] = function() { };
-            }*/
+     $scope.pieData = data;          
         })
     .error(function(data) {
             //console.log('Error: ' + data);
@@ -76,7 +76,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
  }
 
  $scope.categoryChange = function(category){
-
+    console.log('changing to ',category)
     $http.get('/api/responses/qid/'+qid+'/'+$scope.formData.category)
     .success(function(data) {
         $scope.responses = data;
@@ -96,8 +96,14 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.responses = data;
                 $scope.responded =true
-                //console.log(data);
-            })
+                $http.get('/api/responses/count/'+qid)
+                    .success(function(data) {
+                     $scope.pieData = data;          
+                        })
+                    .error(function(data) {
+                            //console.log('Error: ' + data);
+                        });
+                            })
        .error(function(data) {
         console.log('Error: ' + data);
     });

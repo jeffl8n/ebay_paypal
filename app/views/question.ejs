@@ -26,6 +26,13 @@
         .Other {
             color: #d9534f;
         }
+
+        .select-item{
+            display:block; 
+            width:100%; 
+            margin-left:20px; 
+            cursor:pointer;
+        }
         .dark-hr { display: block; height: 1px;
             border: 0; border-top: 1px solid #ccc;
             margin: 1em 0; padding: 0; }
@@ -52,7 +59,7 @@
                               <hr class="dark-hr">
                               <div class="collapse" id="collapseExample">
                                   <% global.categories.forEach(function(category){%>
-                                  <span data-toggle="collapse" data-target="#collapseExample" ng-click='categorySelected("<%= category %>")' style="display:block; width:100%; margin-left:20px;"><%= category %></span><hr class="dark-hr">
+                                  <span data-toggle="collapse" data-target="#collapseExample" ng-click='categorySelected("<%= category %>")' class="select-item {{'<%= category %>'|classy}}"><%= category %></span><hr class="dark-hr">
                                   <% })  %>
                               </div>
                               <div class="form-group ">
@@ -94,23 +101,24 @@
                     </div>
                 </div>
                 <div class="col-sm-8" >
-                    <h3>can i has pie?</h3>
                     <div>
 
                         <nvd3-pie-chart
                         data="pieData"
-                        id="exampleId"
+                        id="responseChart"
                         width="550"
-                        height="350"
+                        height="550"
                         x="xFunction()"
                         y="yFunction()"
                         showLegend="true"
-                        legendradiobuttonmode = "true"
+                        legendradiobuttonmode = "false"
                         pieLabelsOutside="false"
                         showLabels="true"
                         donut="true"
                         donutRatio=".40"
-                        labelType="value">
+                       labelType="value"
+                       legendColor="colorFunction()"
+                        color="colorFunction()">
                         <svg></svg>
                     </nvd3-pie-chart>
 

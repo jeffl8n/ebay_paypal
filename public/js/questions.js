@@ -1,8 +1,8 @@
 var journalQuestions = angular.module('journalQuestions', []);
 
-journalQuestions.controller('mainController',  ['$scope', '$http', function($scope, $http) {
+journalQuestions.controller('mainController',  ['$scope', '$http', '$location', function($scope, $http, $location) {
     $scope.formData = {};
-
+$scope.$location = $location;
     $scope.copyLink = function(qID){
         console.log('qID ' + qID); 
         /*var qLink = document.querySelector('#'+qID);  
