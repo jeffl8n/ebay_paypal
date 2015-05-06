@@ -1,6 +1,7 @@
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
-    env = process.env.NODE_ENV || 'development';
+    env = process.env.NODE_ENV || 'development',
+    port = process.env.PORT || 3000;
 
 var config = {
   development: {
@@ -8,7 +9,7 @@ var config = {
     app: {
       name: 'ep-questions'
     },
-    port: 3000,
+    port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   },
 
@@ -17,7 +18,7 @@ var config = {
     app: {
       name: 'ep-questions'
     },
-    port: 3000,
+    port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   },
 
@@ -26,7 +27,7 @@ var config = {
     app: {
       name: 'ep-questions'
     },
-    port: 3000,
+    port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   }
 };
