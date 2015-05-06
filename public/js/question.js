@@ -77,7 +77,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
  $scope.categoryChange = function(category){
     console.log('changing to ',category)
-    $http.get('/api/responses/qid/'+qid+'/'+$scope.formData.category)
+    $http.get('/api/responses/qid/'+qid+'/'+category)
     .success(function(data) {
         $scope.responses = data;
            console.log("cat data", data);
