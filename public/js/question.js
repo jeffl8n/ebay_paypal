@@ -73,9 +73,11 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     $scope.categorySelected = function(category){
      $scope.cat_selected = true
      $scope.formData.category = category
+      addEffect(category)
  }
 
  $scope.categoryChange = function(category){
+     addEffect(category)
     console.log('changing to ',category)
     $http.get('/api/responses/qid/'+qid+'/'+category)
     .success(function(data) {
@@ -136,47 +138,38 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 };
 }]);
 
-var w = 400;
-var h = 400;
-var r = h/2;
-var arc = d3.svg.arc().outerRadius(r);
-var arcOver = d3.svg.arc().outerRadius(r + 10);
+var activeSlicePath
+var activeSlice
+var radius = 200;
+var biggerSlice = d3.svg.arc().outerRadius(210).innerRadius(90);
+var normalSlice = d3.svg.arc().outerRadius(180).innerRadius(90);
+function addEffect(category){
 
-function addEffect(){
+// d3.select('.nv-slice').data()[0].data['key']
+var arcs = d3.selectAll(".nv-slice")
+arcs.each(function(d,i){
 
-    var w = 400;
-    var h = 400;
-    var r = h/2;
+    if(d3.select(this).data()[0].data['key'] == category){
+         activeSlice = d3.select(this)
 
-    var pie = d3.layout.pie().value(function(d){return d.value;});
+        activeSlicePath = d3.select(this).select('path')
+       // activeSlicePath.outerRadius(radius+10)
+        activeSlicePath.transition().duration(200).attr("d",biggerSlice)
+        // activeSlicePath.style('stroke', activeSlicePath.style('fill'))
+        //activeSlicePath.style('stroke-width', 15)
+    }else{
+        d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
+        // d3.select(this).select('path').style('stroke', '#ffffff')
+        //d3.select(this).select('path').style('stroke-width', 1)
+    }
 
-// declare an arc generator function
-var arc = d3.svg.arc().outerRadius(r);
-var arcOver = d3.svg.arc().outerRadius(r + 10);
+})
+arcs.sort(function(a,b){
+    if(a['data']['key'] != category) return -1
+        else return 1
+})
+console.log('slice', activeSlice.id)
 
-// select paths, use arc generator to draw
-var arcs = d3.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-/*arcs.append("svg:path")
-    .attr("d", function (d) {
-        // log the result of the arc generator to show how cool it is :)
-        console.log(arc(d));
-        return arc(d);
-    })
-     .on("mouseenter", function(d) {
-            d3.select(this)
-               .attr("stroke","white")
-               .transition()
-               .duration(1000)
-               .attr("d", arcOver)             
-               .attr("stroke-width",6);
-        })
-        .on("mouseleave", function(d) {
-            d3.select(this).transition()            
-               .attr("d", arc)
-               .attr("stroke","none");
-        });;
-*/
 
 }
-
 

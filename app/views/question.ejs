@@ -41,16 +41,18 @@
             }
 
             .selectedSlice{
-                stroke-width: 10px;
+                -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+                -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+                box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
             }
         </style>
         <div ng-controller="mainController">
-            <div class="container-fluid">
-               <div class="row" style="">
-                   <div class="col-sm-4" style="background-color: #F8F8F8;" >
+            <div class="container-fluid" style="height:650px;">
+               <div class="row" style="height:650px;">
+                   <div class="col-sm-4" style="background-color: #F8F8F8; height:650px;" >
                      <div id="response-form" class="row">
                         <div class="col-sm-12" >
-                            <h1>{{ question.text }}</h1>
+                            <h2>{{ question.text }}</h2>
                             <form class="" ng-hide='responded'>
                               <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                   <span class='pull-left' ng-bind="formData.category"></span> <span class="glyphicon glyphicon-menu-down pull-right" aria-hidden="true"></span> 
@@ -100,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8" >
+                <div class="col-sm-8" style="height:650px;">
                     <div>
 
                         <nvd3-pie-chart
