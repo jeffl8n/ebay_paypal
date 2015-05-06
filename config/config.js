@@ -26,7 +26,7 @@ var config = {
     app: {
       name: 'ep-questions'
     },
-    port: 80,
+    port: 3000,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   }
 };
