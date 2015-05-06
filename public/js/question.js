@@ -64,7 +64,8 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
-     $scope.pieData = data;          
+     $scope.pieData = data;  
+     createFilter()        
         })
     .error(function(data) {
             //console.log('Error: ' + data);
@@ -154,11 +155,13 @@ arcs.each(function(d,i){
 
         activeSlicePath = d3.select(this).select('path')
        // activeSlicePath.outerRadius(radius+10)
+        activeSlicePath.style("filter", "url(#drop-shadow)")
         activeSlicePath.transition().duration(200).attr("d",biggerSlice)
         // activeSlicePath.style('stroke', activeSlicePath.style('fill'))
         //activeSlicePath.style('stroke-width', 15)
     }else{
         d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
+           d3.select(this).select('path').style("filter", null)
         // d3.select(this).select('path').style('stroke', '#ffffff')
         //d3.select(this).select('path').style('stroke-width', 1)
     }
@@ -172,4 +175,44 @@ console.log('slice', activeSlice.id)
 
 
 }
+var svg;
+var defs;
+var filter;
 
+function createFilter(){
+svg = d3.select('svg');
+// filters go in defs element
+defs = svg.append("defs");
+
+// create filter with id #drop-shadow
+// height=130% so that the shadow is not clipped
+filter = defs.append("filter")
+    .attr("id", "drop-shadow")
+    .attr("height", "120%");
+
+// SourceAlpha refers to opacity of graphic that this filter will be applied to
+// convolve that with a Gaussian with standard deviation 3 and store result
+// in blur
+filter.append("feGaussianBlur")
+    .attr("in", "SourceAlpha")
+    .attr("stdDeviation", 2)
+    .attr("result", "blur");
+
+// translate output of Gaussian blur to the right and downwards with 2px
+// store result in offsetBlur
+filter.append("feOffset")
+    .attr("in", "blur")
+    .attr("dx", 2)
+    .attr("dy", 2)
+    .attr("result", "offsetBlur");
+
+// overlay original SourceGraphic over translated blurred opacity by using
+// feMerge filter. Order of specifying inputs is important!
+var feMerge = filter.append("feMerge");
+
+feMerge.append("feMergeNode")
+    .attr("in", "offsetBlur")
+feMerge.append("feMergeNode")
+    .attr("in", "SourceGraphic");
+
+}
