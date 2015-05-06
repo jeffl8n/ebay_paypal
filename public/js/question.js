@@ -1,4 +1,3 @@
-var activeSlice;
 var categoryColorsArray = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives']).filter('classy', function(){
     return function(text){
@@ -11,6 +10,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     $scope.responded = false;
     $scope.formData = {};
     $scope.pieData = [];
+    
 
     $scope.colorFunction = function() {
         return function(d, i) {
@@ -19,16 +19,21 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     }
 
     $scope.$on('elementClick.directive', function(angularEvent, event){
-        console.log( 'elementClick ',event)
-        console.log('switch to ',event.label)
          $scope.categoryChange(event.label)
-
     });
 
     $scope.$on('chartClick.directive', function(angularEvent, event){
         console.log( 'chartClick ',event)
 
     });
+
+    $scope.$on('stateChange.directive', function(angularEvent, event){
+        console.log( 'stateChange ',event)
+
+      addEffect(activeCategory )
+
+    });
+
 
 
     $scope.$on('legendClick.directive', function(angularEvent, event){
@@ -79,11 +84,10 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
  $scope.categoryChange = function(category){
      addEffect(category)
-    console.log('changing to ',category)
+    //console.log('categoryChange ',category)
     $http.get('/api/responses/qid/'+qid+'/'+category)
     .success(function(data) {
         $scope.responses = data;
-           console.log("cat data", data);
        })
     .error(function(data) {
         console.log('Error: ' + data);
@@ -95,13 +99,16 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
        console.log('createResponse ');
        $http.post('/api/responses', $scope.formData)
        .success(function(data) {
-        console.log('success: ' + data);
+
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.responses = data;
                 $scope.responded =true
                 $http.get('/api/responses/count/'+qid)
                     .success(function(data) {
-                     $scope.pieData = data;          
+                     $scope.pieData = data;  
+                    setTimeout(function(){
+                        addEffect(activeCategory)
+                    },500)         
                         })
                     .error(function(data) {
                             //console.log('Error: ' + data);
@@ -138,21 +145,21 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
 };
 }]);
-
+var activeCategory 
 var activeSlicePath
 var activeSlice
 var radius = 200;
 var biggerSlice = d3.svg.arc().outerRadius(210).innerRadius(90);
 var normalSlice = d3.svg.arc().outerRadius(180).innerRadius(90);
 function addEffect(category){
-
-// d3.select('.nv-slice').data()[0].data['key']
+activeCategory  = category
+console.log('activeCategory ',activeCategory)
 var arcs = d3.selectAll(".nv-slice")
 arcs.each(function(d,i){
-
+     
     if(d3.select(this).data()[0].data['key'] == category){
+        console.log('match ',activeCategory)
          activeSlice = d3.select(this)
-
         activeSlicePath = d3.select(this).select('path')
        // activeSlicePath.outerRadius(radius+10)
         activeSlicePath.style("filter", "url(#drop-shadow)")
@@ -171,8 +178,6 @@ arcs.sort(function(a,b){
     if(a['data']['key'] != category) return -1
         else return 1
 })
-console.log('slice', activeSlice.id)
-
 
 }
 var svg;
