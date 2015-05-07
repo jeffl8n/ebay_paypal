@@ -83,14 +83,15 @@
                 </div>
 
                 <div id="response-list" class="row" >
-                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded'>
+                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:595px; overflow:scroll;">
+                    {{activeCategory}}
                         <table class="table {{response.category|classy}}">
-                            <tr class="{{response.category|classy}}" ng-repeat="response in responses">
+                            <tr class="{{response.category|classy}}" ng-repeat="response in responses | filter:activeCategory" ng-if="response.text.length > 0">
                                 <td>
                                     <span style="display:block; width:100%; height: 25px">
                                         <span class='pull-left'><h4>{{response.category}}</h4></span>
                                         <span class='pull-right' style="cursor:pointer;"><h4 style="vertical-align:middle;">{{ response.votes }} 
-                                            <span class="glyphicon glyphicon-plus" aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' ></span></h4></span> 
+                                            <span class="glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' ></span></h4></span> 
                                         </span>
                                         <hr>
                                         <strong>@{{ response.learner }}</strong>
@@ -112,7 +113,7 @@
                         height="550"
                         x="xFunction()"
                         y="yFunction()"
-                        showLegend="true"
+                        showLegend="false"
                         legendradiobuttonmode = "false"
                         pieLabelsOutside="false"
                         showLabels="true"

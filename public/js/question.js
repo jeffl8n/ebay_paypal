@@ -5,11 +5,13 @@ var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives']
     }
 });
 
-journalQuestion.controller('mainController',  ['$scope', '$http', function($scope, $http) {
+journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
     $scope.cat_selected = false;
     $scope.responded = false;
     $scope.formData = {};
     $scope.pieData = [];
+    $scope.votedFor = [];
+    $scope.activeCategory
     
 
     $scope.colorFunction = function() {
@@ -19,26 +21,19 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     }
 
     $scope.$on('elementClick.directive', function(angularEvent, event){
+        $scope.$apply(function () {               // 3
+            $scope.activeCategory = event.label
+          });
+        
          $scope.categoryChange(event.label)
     });
 
-    $scope.$on('chartClick.directive', function(angularEvent, event){
-        console.log( 'chartClick ',event)
-
-    });
-
-    $scope.$on('stateChange.directive', function(angularEvent, event){
-        console.log( 'stateChange ',event)
-
+     $scope.$on('stateChange.directive', function(angularEvent, event){
+  
       addEffect(activeCategory )
 
     });
 
-
-
-    $scope.$on('legendClick.directive', function(angularEvent, event){
-      console.log('legendClick ',event)
-  });
 
     $scope.xFunction = function(){
         return function(d) {
@@ -69,12 +64,21 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
-     $scope.pieData = data;  
+     $scope.pieData = data; 
+     setTimeout(function(){createCenter()},500) ;         
      createFilter()        
         })
     .error(function(data) {
             //console.log('Error: ' + data);
         });
+
+    $http.get('/api/responses/qid/'+qid)
+    .success(function(data) {
+        $scope.responses = data;
+       })
+    .error(function(data) {
+        console.log('Error: ' + data);
+    });
 
     $scope.categorySelected = function(category){
      $scope.cat_selected = true
@@ -84,19 +88,12 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
  $scope.categoryChange = function(category){
      addEffect(category)
-    //console.log('categoryChange ',category)
-    $http.get('/api/responses/qid/'+qid+'/'+category)
-    .success(function(data) {
-        $scope.responses = data;
-       })
-    .error(function(data) {
-        console.log('Error: ' + data);
-    });
+    
 }
 
     // when submitting the add form, send the text to the node API
     $scope.createResponse = function() {
-       console.log('createResponse ');
+        resetSlices()
        $http.post('/api/responses', $scope.formData)
        .success(function(data) {
 
@@ -121,12 +118,11 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
 
     $scope.vote =function(response){
         var id = response._id
-    //console.log(response._id)
     if($('#vote_'+id).hasClass('glyphicon-plus')){
         $http.post('/api/responses/vote/' + id)
         .success(function(data) {
-           // console.log('success '+data);
            response.votes++
+           response.icon = "glyphicon-minus"
        })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -134,8 +130,8 @@ journalQuestion.controller('mainController',  ['$scope', '$http', function($scop
     }else{
         $http.delete('/api/responses/vote/' + id)
         .success(function(data) {
-          //  console.log('success '+data);
           response.votes--
+          response.icon = "glyphicon-plus"
       })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -152,25 +148,19 @@ var radius = 200;
 var biggerSlice = d3.svg.arc().outerRadius(210).innerRadius(90);
 var normalSlice = d3.svg.arc().outerRadius(180).innerRadius(90);
 function addEffect(category){
+
 activeCategory  = category
-console.log('activeCategory ',activeCategory)
 var arcs = d3.selectAll(".nv-slice")
 arcs.each(function(d,i){
      
     if(d3.select(this).data()[0].data['key'] == category){
-        console.log('match ',activeCategory)
          activeSlice = d3.select(this)
         activeSlicePath = d3.select(this).select('path')
-       // activeSlicePath.outerRadius(radius+10)
         activeSlicePath.style("filter", "url(#drop-shadow)")
         activeSlicePath.transition().duration(200).attr("d",biggerSlice)
-        // activeSlicePath.style('stroke', activeSlicePath.style('fill'))
-        //activeSlicePath.style('stroke-width', 15)
     }else{
         d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
            d3.select(this).select('path').style("filter", null)
-        // d3.select(this).select('path').style('stroke', '#ffffff')
-        //d3.select(this).select('path').style('stroke-width', 1)
     }
 
 })
@@ -180,6 +170,15 @@ arcs.sort(function(a,b){
 })
 
 }
+
+function resetSlices(){
+    var arcs = d3.selectAll(".nv-slice")
+    arcs.each(function(d,i){
+        d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
+        d3.select(this).select('path').style("filter", null)
+    })
+}
+
 var svg;
 var defs;
 var filter;
@@ -219,5 +218,16 @@ feMerge.append("feMergeNode")
     .attr("in", "offsetBlur")
 feMerge.append("feMergeNode")
     .attr("in", "SourceGraphic");
+
+}
+
+function createCenter(){
+    var svgPie = d3.select('.nv-pieWrap');
+    svgPie.append('svg:image')
+    .attr('xlink:href','../images/logo.png')
+    .attr('width',120)
+    .attr('height',120)
+    .attr('x',170)
+    .attr('y',170);
 
 }

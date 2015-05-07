@@ -101,7 +101,8 @@ var Response = mongoose.model('Response');
                 res.send(err);
 
             // get and return all the responses after you create another
-            Response.find({'question' : req.body.question, 'category': req.body.category},function(err, responses) {
+            //removed category filter from sql so angular can filter it , 'category': req.body.category
+            Response.find({'question' : req.body.question},function(err, responses) {
 
                 if (err)
                     res.send(err)
