@@ -11,21 +11,28 @@
 
     <style type="text/css">
 
-        .Culture {
-            color: #3071A9;
-        }
-        .Money {
-            color: #5cb85c;
-        }
-        .Innovation {
-            color: #5bc0de;
-        }
-        .Career-Advancement {
-            color: #f0ad4e;
-        }
-        .Other {
-            color: #d9534f;
-        }
+    .circle{
+        display:inline-block; 
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+    }
+
+    .legendItem{
+        border-radius: 18px;
+        border-style: solid;
+        border-color: white;
+        padding: 8px;
+        margin: 5px;
+        width: 175px;
+        height: 40px;
+        cursor:pointer;
+    }
+      .legend-selected{
+        border-color: #ccc;
+
+    }
+
 
         .select-item{
             display:block; 
@@ -104,6 +111,19 @@
                     </div>
                 </div>
                 <div class="col-sm-8" style="height:650px;">
+                <div class="row">
+                <div class="col-sm-6">
+                    <div class="legendItem" ng-click="legendClick('Money')" ng-class="{'legend-selected':  activeCategory=='Money' }"><span class="circle" style="background-color: #5cb85c;"></span> Money </div>
+                    <div class="legendItem" ng-click="legendClick('Other')" ng-class="{'legend-selected': activeCategory=='Other' }"><span class="circle" style="background-color: #d9534f;"></span> Other </div>
+                    <div class="legendItem"  ng-click="legendClick('Career Advancement')" ng-class="{'legend-selected': activeCategory=='Career Advancement' }"><span class="circle" style="background-color: #f0ad4e;"></span> Career Advancement</div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="legendItem" ng-click="legendClick('Culture')" ng-class="{'legend-selected': activeCategory=='Culture' }"><span class="circle" style="background-color: #3071A9;"></span> Culture </div>
+                    <div class="legendItem" ng-click="legendClick('Innovation')" ng-class="{'legend-selected': activeCategory=='Innovation' }"><span class="circle" style="background-color: #5bc0de;"></span> Innovation </div>
+
+                </div>
+                </div>
+
                     <div>
 
                         <nvd3-pie-chart

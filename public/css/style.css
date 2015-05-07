@@ -6,3 +6,19 @@ body {
 a {
   color: #00B7FF;
 }
+
+        .Culture {
+            color: #3071A9;
+        }
+        .Money {
+            color: #5cb85c;
+        }
+        .Innovation {
+            color: #5bc0de;
+        }
+        .Career-Advancement {
+            color: #f0ad4e;
+        }
+        .Other {
+            color: #d9534f;
+        }

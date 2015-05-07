@@ -83,6 +83,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.categorySelected = function(category){
      $scope.cat_selected = true
      $scope.formData.category = category
+     $scope.activeCategory = category
       addEffect(category)
  }
 
@@ -91,18 +92,24 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     
 }
 
+$scope.legendClick = function(category){
+    $scope.activeCategory = category
+    addEffect(category)
+}
+
     // when submitting the add form, send the text to the node API
     $scope.createResponse = function() {
         resetSlices()
        $http.post('/api/responses', $scope.formData)
        .success(function(data) {
-
+                $scope.activeCategory = $scope.formData.category
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.responses = data;
                 $scope.responded =true
                 $http.get('/api/responses/count/'+qid)
                     .success(function(data) {
                      $scope.pieData = data;  
+
                     setTimeout(function(){
                         addEffect(activeCategory)
                     },500)         

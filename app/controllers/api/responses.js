@@ -32,11 +32,26 @@ var Response = mongoose.model('Response');
             res.json(responses); // return all responses in JSON format
         });
     });
+
+    router.get('/api/moderate/responses/', function(req, res) {
+
+        // use mongoose to get all responses in the database
+        Response.find({'text': {$ne: null}},function(err, responses) {
+
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err)
+
+            res.json(responses); // return all responses in JSON format
+        });
+    });
+
+
     // get all responses for a question
     router.get('/api/responses/qid/:question_id', function(req, res) {
 
         // use mongoose to get all responses in the database
-        Response.find({'question' : req.params.question_id},function(err, responses) {
+        Response.find({'question' : req.params.question_id, 'text': {$ne: null}},function(err, responses) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
@@ -111,6 +126,20 @@ var Response = mongoose.model('Response');
         });
 
     });
+
+    //update a response
+    router.post('/api/responses/:response_id', function(req, res) {
+        console.log('votting for ', req.params.response_id)
+        Response.findOneAndUpdate(
+            {_id : req.params.response_id}, 
+            {text : req.body.text}
+            ).exec(function(err, db_res){
+            if (err)
+                    res.send(err)
+                res.json(db_res);
+        })
+    });
+
      // vote up/down response
     router.post('/api/responses/vote/:response_id', function(req, res) {
         console.log('votting for ', req.params.response_id)

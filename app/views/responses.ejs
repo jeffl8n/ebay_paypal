@@ -1,0 +1,52 @@
+<% include header %>
+<script src="/js/responses.js"></script>
+<style>
+    html                    { overflow-y:scroll; }
+    body                    { padding-top:50px; }
+    #question-list              { margin-bottom:30px; }
+    #question-form              { margin-bottom:30px; }
+</style>
+
+<main ng-app="journalResponses">
+
+    <!-- SET THE CONTROLLER AND GET ALL QUESTIONS -->
+    <div ng-controller="mainController">
+        <div class="container">
+
+            <!-- HEADER AND TODO COUNT -->
+            <div class="jumbotron text-center">
+                <h1>Responses <span class="label label-info">{{ responses.length }}</span></h1>
+            </div>
+
+            <!-- question LIST -->
+            <div id="response-list" class="row">
+                <div class="col-sm-10 col-sm-offset-1 text-center">
+
+                    <!-- LOOP OVER THE QUESTIONS IN $scope.questions -->
+                    <ul class="list-group">
+                      <li class="list-group-item" ng-repeat="response in responses">
+                     
+                        <div class="input-group">
+                           <label></label>
+                            <input type="text" class="form-control" id="q_{{response._id}}" ng-model="response.text" ng-change="response.changed=true">
+                            <span class="input-group-btn">
+                                          <button class="btn btn-default" ng-disabled="!response.changed" ng-click="updateResponse($index, response)">
+                                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                                </button>
+                                <button class="btn btn-warning" ng-click="deleteResponse($index, response._id)">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</main>
+
+<% include footer %>
