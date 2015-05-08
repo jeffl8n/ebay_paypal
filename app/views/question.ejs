@@ -10,6 +10,19 @@
     <script src="/js/question.js"></script>
 
     <style type="text/css">
+    #coverUp{
+        position: absolute;
+        top: 0px;
+        width: 680px;
+        left: 320px;
+        height: 650px;
+        background-color: rgba(207,207,207,.5); 
+        z-index: 1000;
+    }
+
+    .greyed-out{
+        background-color: rgb(237,237,237); 
+    }
 
     .circle{
         display:inline-block; 
@@ -29,7 +42,7 @@
         cursor:pointer;
     }
       .legend-selected{
-        border-color: #ccc;
+        border-color: rgb(237,237,237);
 
     }
 
@@ -47,16 +60,11 @@
                 padding: 0px;
             }
 
-            .selectedSlice{
-                -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-                -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-                box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-            }
         </style>
         <div ng-controller="mainController">
             <div class="container-fluid" style="height:650px;">
                <div class="row" style="height:650px;">
-                   <div class="col-sm-4" style="background-color: #F8F8F8; height:650px;" >
+                   <div class="col-sm-4 " id="side_bar" ng-class="{responded: 'greyed-out'}" style="height:650px;" >
                      <div id="response-form" class="row">
                         <div class="col-sm-12" >
                             <h2>{{ question.text }}</h2>
@@ -90,8 +98,7 @@
                 </div>
 
                 <div id="response-list" class="row" >
-                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:595px; overflow:scroll;">
-                    {{activeCategory}}
+                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:550px; overflow:scroll;">
                         <table class="table {{response.category|classy}}">
                             <tr class="{{response.category|classy}}" ng-repeat="response in responses | filter:activeCategory" ng-if="response.text.length > 0">
                                 <td>
@@ -124,7 +131,7 @@
                 </div>
                 </div>
 
-                    <div style="height:550px;">
+                    <div id='pieHolder' style="height:510px;">
 
                         <nvd3-pie-chart
                         data="pieData"
@@ -150,7 +157,7 @@
             </div>
         </div>
     </div>
-
+<div id='coverUp' ng-hide="responded"></div>
 </div>
 </main>
 

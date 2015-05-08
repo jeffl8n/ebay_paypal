@@ -238,3 +238,12 @@ function createCenter(){
     .attr('y',170);
 
 }
+
+
+//jquery setup cover
+
+$(function() {
+    $('#coverUp').css('left',$('#side_bar').outerWidth())
+    $('#coverUp').width($(window).width()-$('#side_bar').outerWidth())
+    $('#coverUp').height($(window).height())
+});
