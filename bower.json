@@ -1,0 +1,15 @@
+{
+  "name": "ep-questions",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "resolutions": {
+    "d3": "~3.4.1"
+  },
+  "dependencies": {
+    "angularjs-nvd3-directives": "~0.0.7"
+  }
+}

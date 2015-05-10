@@ -1,0 +1,164 @@
+<% include header %>
+
+<script type="text/javascript">
+    var qid = '<%- qid %>';
+</script>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<main ng-app="journalQuestion">
+
+    <script src="/js/question.js"></script>
+
+    <style type="text/css">
+    #coverUp{
+        position: absolute;
+        top: 0px;
+        width: 680px;
+        left: 320px;
+        height: 650px;
+        background-color: rgba(207,207,207,.5); 
+        z-index: 1000;
+    }
+
+    .greyed-out{
+        background-color: rgb(237,237,237); 
+    }
+
+    .circle{
+        display:inline-block; 
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+    }
+
+    .legendItem{
+        border-radius: 18px;
+        border-style: solid;
+        border-color: white;
+        padding: 8px;
+        margin: 5px;
+        width: 175px;
+        height: 40px;
+        cursor:pointer;
+    }
+      .legend-selected{
+        border-color: rgb(237,237,237);
+
+    }
+
+
+        .select-item{
+            display:block; 
+            width:100%; 
+            margin-left:20px; 
+            cursor:pointer;
+        }
+        .dark-hr { display: block; height: 1px;
+            border: 0; border-top: 1px solid #ccc;
+            margin: 1em 0; padding: 0; }
+            body{
+                padding: 0px;
+            }
+
+        </style>
+        <div ng-controller="mainController">
+            <div class="container-fluid" style="height:650px;">
+               <div class="row" style="height:650px;">
+                   <div class="col-sm-4 " id="side_bar" ng-class="{responded: 'greyed-out'}" style="height:650px;" >
+                     <div id="response-form" class="row">
+                        <div class="col-sm-12" >
+                            <h2>{{ question.text }}</h2>
+                            <form class="" ng-hide='responded'>
+                              <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                  <span class='pull-left' ng-bind="formData.category"></span> <span class="glyphicon glyphicon-menu-down pull-right" aria-hidden="true"></span> 
+                              </button>
+
+                              <hr class="dark-hr">
+                              <div class="collapse" id="collapseExample">
+                                  <% global.categories.forEach(function(category){%>
+                                  <span data-toggle="collapse" data-target="#collapseExample" ng-click='categorySelected("<%= category %>")' class="select-item {{'<%= category %>'|classy}}"><%= category %></span><hr class="dark-hr">
+                                  <% })  %>
+                              </div>
+                              <div class="form-group ">
+                                <textarea ng-disabled="!cat_selected" class="form-control input-lg" style="height:80px;" placeholder="Optional" ng-model="formData.text"></textarea>
+                                <br>
+
+                                <button type="submit" ng-disabled="!cat_selected" class="btn btn-primary" style="" ng-click="createResponse()">Submit</button>
+
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" class="form-control  text-center"  ng-model="formData.question">
+                                <input type="hidden" class="form-control  text-center"  ng-model="formData.learner">
+                                <input type="hidden" class="form-control  text-center"  ng-model="formData.group">
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <div id="response-list" class="row" >
+                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:550px; overflow:scroll;">
+                        <table class="table {{response.category|classy}}">
+                            <tr class="{{response.category|classy}}" ng-repeat="response in responses | filter:activeCategory" ng-if="response.text.length > 0">
+                                <td>
+                                    <span style="display:block; width:100%; height: 25px">
+                                        <span class='pull-left'><h4>{{response.category}}</h4></span>
+                                        <span class='pull-right' style="cursor:pointer;"><h4 style="vertical-align:middle;">{{ response.votes }} 
+                                            <span class="glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' ></span></h4></span> 
+                                        </span>
+                                        <hr>
+                                        <strong>@{{ response.learner }}</strong>
+                                        <p>{{ response.text }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8" style="height:650px;">
+                <div class="row">
+                <div class="col-sm-6">
+                    <div class="legendItem" ng-click="legendClick('Money')" ng-class="{'legend-selected':  activeCategory=='Money' }"><span class="circle" style="background-color: #5cb85c;"></span> Money </div>
+                    <div class="legendItem" ng-click="legendClick('Other')" ng-class="{'legend-selected': activeCategory=='Other' }"><span class="circle" style="background-color: #d9534f;"></span> Other </div>
+                    <div class="legendItem"  ng-click="legendClick('Career Advancement')" ng-class="{'legend-selected': activeCategory=='Career Advancement' }"><span class="circle" style="background-color: #f0ad4e;"></span> Career Advancement</div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="legendItem" ng-click="legendClick('Culture')" ng-class="{'legend-selected': activeCategory=='Culture' }"><span class="circle" style="background-color: #3071A9;"></span> Culture </div>
+                    <div class="legendItem" ng-click="legendClick('Innovation')" ng-class="{'legend-selected': activeCategory=='Innovation' }"><span class="circle" style="background-color: #5bc0de;"></span> Innovation </div>
+
+                </div>
+                </div>
+
+                    <div id='pieHolder' style="height:510px;">
+
+                        <nvd3-pie-chart
+                        data="pieData"
+                        id="responseChart"
+                        width="550"
+                        height="550"
+                        x="xFunction()"
+                        y="yFunction()"
+                        showLegend="false"
+                        legendradiobuttonmode = "false"
+                        pieLabelsOutside="false"
+                        showLabels="true"
+                        donut="true"
+                        donutRatio=".40"
+                       labelType="value"
+                       legendColor="colorFunction()"
+                        color="colorFunction()">
+                        <svg></svg>
+                    </nvd3-pie-chart>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+<div id='coverUp' ng-hide="responded"></div>
+</div>
+</main>
+
+<% include footer %>

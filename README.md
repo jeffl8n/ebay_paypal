@@ -1,10 +1,9 @@
 # ebay_paypal
-You will need Node.js and some basic modules
-[I believe you can just 'npm install'](http://stackoverflow.com/questions/8367031/how-do-i-install-package-json-dependencies-in-the-current-directory-using-npm)
+You will need Node.js and some basic modules.  Run `npm install & bower install` to verify you have all of the dependencies.  
 
 [I am using EJS for templating](https://www.npmjs.com/package/ejs)
 
-Run the app.js from cmd line with `node app` 
+Run `grunt` to start the local server with live reload capabilities.
 
 I have tried to seperate front end views from data by creating an api seperate from the HTML/Angular
 
