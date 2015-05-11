@@ -25,6 +25,7 @@
     "nvd3": "1.1.15-beta2",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
+    "connect-flash" : "~0.1.1", 
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {

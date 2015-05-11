@@ -10,6 +10,10 @@ var methodOverride = require('method-override');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var expressSession = require('express-session');
+var flash    = require('connect-flash');
+
+var  mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 
 module.exports = function(app, config) {
@@ -31,6 +35,8 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
+   app.use(flash());
+
   // Configuring Passport
   app.use(expressSession({secret: 'S3Mg1wyXa&jtMA^Ljvehh9TFmj&502qxlQcHEN91F1Nkj4%h4Rja4wjdphB7O4hmA7dcmPuTAP5wO1nR5g!BRpwpz^CXt95lUqGm'}));
   app.use(passport.initialize());
@@ -50,6 +56,52 @@ module.exports = function(app, config) {
       });
     }
   ));
+
+  passport.use('local', new LocalStrategy({
+    passReqToCallback : true
+  },
+  function(req, username, password, done) {
+    findOrCreateUser = function(){
+      // find a user in Mongo with provided username
+      User.findOne({'username':username},function(err, user) {
+        // In case of any error return
+        if (err){
+          console.log('Error in SignUp: '+err);
+          return done(err);
+        }
+        // already exists
+        if (user) {
+          console.log('User already exists');
+          return done(null, false, 
+             req.flash('message','User Already Exists'));
+        } else {
+          // if there is no user with that email
+          // create the user
+          var newUser = new User();
+          // set the user's local credentials
+          newUser.username = username;
+          newUser.password = password;
+          newUser.email = req.param('email');
+ 
+          // save the user
+          newUser.save(function(err) {
+            if (err){
+              console.log('Error in Saving user: '+err);  
+              throw err;  
+            }
+            console.log('User Registration succesful');    
+            return done(null, newUser);
+          });
+        }
+      });
+    };
+     
+    // Delay the execution of findOrCreateUser and execute 
+    // the method in the next tick of the event loop
+    process.nextTick(findOrCreateUser);
+  })
+);
+
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);

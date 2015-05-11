@@ -3,6 +3,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   passport = require('passport'),
   Question = mongoose.model('Question');
+  flash    = require('connect-flash');
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
@@ -44,3 +45,17 @@ router.get('/questions/:question_id', isAuthenticated, function(req, res) {
 router.get('/responses', isAuthenticated, function(req, res) {
   res.render('responses', { title: 'Responses' });
 });
+
+
+router.get('/createadmin', function(req,  res) {
+                res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});
+});
+
+
+router.post('/createadmin',  passport.authenticate('local', {
+                successRedirect :  '/', // redirect to the secure profile section
+                failureRedirect :  '/createadmin', // redirect back to the signup page if there is an error
+                failureFlash : true  // allow flash messages
+}));
+
+
