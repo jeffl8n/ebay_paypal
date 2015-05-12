@@ -42,7 +42,7 @@ module.exports = function(app, config) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  passport.use(new LocalStrategy(
+  passport.use('local-login',new LocalStrategy(
     function(username, password, done) {
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
@@ -56,6 +56,8 @@ module.exports = function(app, config) {
       });
     }
   ));
+
+  
 
   passport.use('local', new LocalStrategy({
     passReqToCallback : true
