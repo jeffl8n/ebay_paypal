@@ -46,6 +46,9 @@ router.get('/responses', isAuthenticated, function(req, res) {
   res.render('responses', { title: 'Responses' });
 });
 
+router.get('/users', isAuthenticated, function(req, res) {
+  res.render('users', { title: 'Users' });
+});
 
 router.get('/createadmin', function(req,  res) {
                 res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});

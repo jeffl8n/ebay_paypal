@@ -12,6 +12,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var expressSession = require('express-session');
 var flash    = require('connect-flash');
 
+
+
 var  mongoose = require('mongoose');
 var User = mongoose.model('User');
 
@@ -57,7 +59,7 @@ module.exports = function(app, config) {
     }
   ));
 
-  
+
 
   passport.use('local', new LocalStrategy({
     passReqToCallback : true
@@ -122,8 +124,10 @@ module.exports = function(app, config) {
 
   var questions_api = require(config.root + '/app/controllers/api/questions');
   var responses_api = require(config.root + '/app/controllers/api/responses');
+  var users_api = require(config.root + '/app/controllers/api/users');
   app.use(questions_api);
-  app.use(responses_api);
+  app.use(questions_api);
+  app.use(users_api);
 
 global.categories = ['Culture','Money','Innovation','Career Advancement','Other'];
 global.categoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];

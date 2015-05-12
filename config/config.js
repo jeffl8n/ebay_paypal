@@ -9,6 +9,11 @@ var config = {
     app: {
       name: 'ep-questions'
     },
+    sg: {
+      password: 't37ue8YW8j98mIY',
+      smtp_server: 'smtp.sendgrid.net',
+      username: 'azure_6564498b523fa6c923e29170e5c3a778@azure.com'
+    },
     port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   },
@@ -18,6 +23,11 @@ var config = {
     app: {
       name: 'ep-questions'
     },
+    sg: {
+      password: 't37ue8YW8j98mIY',
+      smtp_server: 'smtp.sendgrid.net',
+      username: 'azure_6564498b523fa6c923e29170e5c3a778@azure.com'
+    },
     port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
   },
@@ -26,6 +36,11 @@ var config = {
     root: rootPath,
     app: {
       name: 'ep-questions'
+    },
+    sg: {
+      password: 't37ue8YW8j98mIY',
+      smtp_server: 'smtp.sendgrid.net',
+      username: 'azure_6564498b523fa6c923e29170e5c3a778@azure.com'
     },
     port: port,
     db: 'mongodb://journalDB:journalDB@ds060977.mongolab.com:60977/journal-db'
