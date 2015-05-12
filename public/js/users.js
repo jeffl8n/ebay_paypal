@@ -5,8 +5,8 @@ var journalAdmins = angular.module('journalAdmins', []).filter('classy', functio
 });
 
 journalAdmins.controller('mainController',  ['$scope', '$http', '$window', function($scope, $http, $window) {
-      $scope.responses
-    // when landing on the page, get all responses and show them
+      $scope.users
+
     $http.get('/api/users')
     .success(function(data) {
         $scope.users = data;
@@ -16,12 +16,12 @@ journalAdmins.controller('mainController',  ['$scope', '$http', '$window', funct
         console.log('Error: ' + data);
     });
 
-    $scope.updateResponse = function(idx, response) {
-      console.log('response ', response.text)
-      $http.post('/api/responses/'+response._id, response)
+    $scope.resetPassword = function(idx, user) {
+      console.log('user ', user.username)
+      $http.post('/api/user/password'+user._id, user)
         .success(function(data) {
                 console.log(data);
-                response.changed=false;
+                
             })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -30,12 +30,12 @@ journalAdmins.controller('mainController',  ['$scope', '$http', '$window', funct
     }
 
     // delete a question after checking it
-    $scope.deleteResponse = function(idx, id) {
-      var areYouSure = $window.confirm('Are you sure you really want to delete this response?')
+    $scope.deleteUser = function(idx, id) {
+      var areYouSure = $window.confirm('Are you sure you really want to delete this user?')
       if(areYouSure){
-        $http.delete('/api/responses/' + id)
+        $http.delete('/api/users/' + id)
         .success(function(data) {
-            $scope.responses.splice(idx, 1)
+            $scope.users.splice(idx, 1)
         })
         .error(function(data) {
             console.log('Error: ' + data);

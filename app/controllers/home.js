@@ -38,7 +38,8 @@ router.get('/questions', isAuthenticated, function(req, res) {
   res.render('questions', { title: 'Questions' });
 });
 
-router.get('/questions/:question_id', isAuthenticated, function(req, res) {
+//this is public
+router.get('/questions/:question_id', function(req, res) {
   res.render('question', { title: 'Question', qid: req.params.question_id });
 });
 
@@ -50,6 +51,7 @@ router.get('/users', isAuthenticated, function(req, res) {
   res.render('users', { title: 'Users' });
 });
 
+//TO-DO: need to protect this later
 router.get('/createadmin', function(req,  res) {
                 res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});
 });

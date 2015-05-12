@@ -22,6 +22,8 @@ var sendgrid = require('sendgrid')(config.sg.username, config.sg.password);
         });
     });
 
+//test of sending an email. 
+//TO-DO: Gen random password and set it. Then send email to user
 router.get('/api/user/password/:id', function(req, res){
 	var email = new sendgrid.Email({
 	    to: 'james@builtclean.com',
