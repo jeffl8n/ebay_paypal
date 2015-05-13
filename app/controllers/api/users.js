@@ -24,6 +24,18 @@ var sendgrid = require('sendgrid')(config.sg.username, config.sg.password);
         });
     });
 
+//update profile
+router.post('/users/update/:id', function(req, res){
+		 User.findOneAndUpdate(
+        {_id : req.params.id}, 
+        {username : req.body.username, email: req.body.email, password: req.body.password }
+        ).exec(function(err, db_res){
+        if (err){ res.send(err)}
+       	res.render('profile', { message: 'Updated', user: db_res, title: 'Profile' });
+    })
+})
+
+
 //gen random reset token and email user
 router.get('/api/user/reset/:id', function(req, res){
 	var token = randomstring.generate();
@@ -52,8 +64,6 @@ router.get('/api/user/reset/:id', function(req, res){
 //take user to profile so they can reset password
 router.get('/user/reset/:token', function(req, res){
   User.findOne({resetToken : req.params.token}, function(err, user) {
-  	console.log('user', user)
-  	console.log('err', err)
     if(err){
         res.render('error', {
         message: err.message,

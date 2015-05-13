@@ -16,13 +16,7 @@ module.exports = function (app) {
 };
 
 router.get('/', isAuthenticated, function (req, res, next) {
-  Question.find(function (err, questions) {
-    if (err) return next(err);
-    res.render('index', {
-      title: 'Home',
-      questions: questions
-    });
-  });
+   res.render('index', { title: 'Home' });
 });
 
 

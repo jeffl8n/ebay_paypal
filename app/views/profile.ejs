@@ -12,15 +12,15 @@
                 <form action="/users/update/<%= user._id %>"  method="post">
                                 <div  class="form-group">
                                                 <label>Email</label>
-                                                <input  type="text" class="form-control" name="email"  placeholder="<%= user.email %>">
+                                                <input  type="text" class="form-control" name="email"  value="<%= user.email %>">
                                 </div>
                                 <div  class="form-group">
                                                 <label>Username</label>
-                                                <input  type="text" class="form-control"  name="username" placeholder="<%= user.username %>">
+                                                <input  type="text" class="form-control"  name="username" value="<%= user.username %>">
                                 </div>
                                 <div  class="form-group">
                                                 <label>Password</label>
-                                                <input  type="password" class="form-control"  name="password" placeholder="<%= user.password %>">
+                                                <input  type="password" class="form-control"  name="password" value="<%= user.password %>">
                                 </div>
  
                                 <button type="submit" class="btn  btn-warning btn-lg">Update Profile</button>
