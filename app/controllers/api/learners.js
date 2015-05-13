@@ -5,6 +5,6 @@ var mongoose = require('mongoose');
 
 var Learner = mongoose.model('Learner',{
   lmsID: String,
-  userName: String,
+  email: String,
 });
     module.exports = router;
