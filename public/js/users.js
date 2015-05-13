@@ -17,8 +17,7 @@ journalAdmins.controller('mainController',  ['$scope', '$http', '$window', funct
     });
 
     $scope.resetPassword = function(idx, user) {
-      console.log('user ', user.username)
-      $http.post('/api/user/password'+user._id, user)
+      $http.post('/api/user/reset/'+user._id, user)
         .success(function(data) {
                 console.log(data);
                 

@@ -37,7 +37,7 @@ router.post('/users/update/:id', function(req, res){
 
 
 //gen random reset token and email user
-router.get('/api/user/reset/:id', function(req, res){
+router.post('/api/user/reset/:id', function(req, res){
 	var token = randomstring.generate();
      User.findOneAndUpdate(
         {_id : req.params.id}, 
