@@ -19,7 +19,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
   Question.find(function (err, questions) {
     if (err) return next(err);
     res.render('index', {
-      title: 'EBay Questions',
+      title: 'Home',
       questions: questions
     });
   });
@@ -49,6 +49,10 @@ router.get('/responses', isAuthenticated, function(req, res) {
 
 router.get('/users', isAuthenticated, function(req, res) {
   res.render('users', { title: 'Users' });
+});
+
+router.get('/profile', isAuthenticated, function(req, res) {
+  res.render('profile', { message: req.flash('loginMessage'), user: req.user, title: 'Profile' });
 });
 
 //TO-DO: need to protect this later

@@ -129,7 +129,6 @@ var Response = mongoose.model('Response');
 
     //update a response
     router.post('/api/responses/:response_id', function(req, res) {
-        console.log('votting for ', req.params.response_id)
         Response.findOneAndUpdate(
             {_id : req.params.response_id}, 
             {text : req.body.text}

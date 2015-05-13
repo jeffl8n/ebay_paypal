@@ -122,11 +122,13 @@ module.exports = function(app, config) {
     require(controller)(app);
   });
 
+
+
   var questions_api = require(config.root + '/app/controllers/api/questions');
   var responses_api = require(config.root + '/app/controllers/api/responses');
   var users_api = require(config.root + '/app/controllers/api/users');
   app.use(questions_api);
-  app.use(questions_api);
+  app.use(responses_api);
   app.use(users_api);
 
 global.categories = ['Culture','Money','Innovation','Career Advancement','Other'];

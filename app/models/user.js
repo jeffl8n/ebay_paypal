@@ -4,7 +4,8 @@ Schema = mongoose.Schema;
 var UserSchema = new Schema({
   username: String,
   password: String,
-  email: String
+  email: String,
+  resetToken: String
 });
 
 UserSchema.methods.validPassword = function( pwd ) {

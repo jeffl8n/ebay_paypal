@@ -26,6 +26,7 @@
     "nvd3": "1.1.15-beta2",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
+    "randomstring": "^1.0.5",
     "sendgrid": "^1.8.0",
     "serve-favicon": "~2.2.0"
   },
