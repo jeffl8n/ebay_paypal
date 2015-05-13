@@ -1,13 +1,23 @@
 var express = require('express'),
-  router = express.Router(),
-  mongoose = require('mongoose'),
-  passport = require('passport'),
-  Question = mongoose.model('Question');
-  flash    = require('connect-flash');
+router = express.Router(),
+mongoose = require('mongoose'),
+passport = require('passport'),
+Question = mongoose.model('Question');
+flash    = require('connect-flash');
 
 var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    console.log('authenticated');
     return next();
+  }
+  console.log('not authenticated');
+  res.redirect('/login');
+}
+
+var isAdmin = function (req, res, next) {
+  if (req.isAuthenticated() && req.user.isAdmin) {
+    return next();
+  }
   res.redirect('/login');
 }
 
@@ -19,14 +29,27 @@ router.get('/', isAuthenticated, function (req, res, next) {
    res.render('index', { title: 'Home' });
 });
 
-
 router.get('/login', function(req, res) {
-  res.render('login', { title: 'Login' });
+  res.render('login', { title: 'Login', message: req.flash('loginMessage')  });
 });
 
 router.post('/login',
-  passport.authenticate('local-login', { successRedirect: '/',
-                                   failureRedirect: '/login' }));
+  passport.authenticate('local-login', { successRedirect: '/questions',
+   failureRedirect: '/login' 
+ })
+);
+
+router.get('/profile', isAuthenticated, function(req, res) {
+  res.render('profile.ejs', {
+    title: 'Profile',
+    user : req.user // get the user out of session and pass to template
+  });
+});
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 router.get('/questions', isAuthenticated, function(req, res) {
   res.render('questions', { title: 'Questions' });
@@ -50,15 +73,15 @@ router.get('/profile', isAuthenticated, function(req, res) {
 });
 
 //TO-DO: need to protect this later
-router.get('/createadmin', function(req,  res) {
-                res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});
+router.get('/createadmin', isAdmin, function(req,  res) {
+  res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});
 });
 
 
-router.post('/createadmin',  passport.authenticate('local', {
-                successRedirect :  '/', // redirect to the secure profile section
+router.post('/createadmin', isAdmin, passport.authenticate('local-signup', {
+                successRedirect :  '/profile', // redirect to the secure profile section
                 failureRedirect :  '/createadmin', // redirect back to the signup page if there is an error
                 failureFlash : true  // allow flash messages
-}));
+              }));
 
 

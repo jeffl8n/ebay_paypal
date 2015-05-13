@@ -7,16 +7,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
+var flash    = require('connect-flash');
+var expressSession = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var expressSession = require('express-session');
-var flash    = require('connect-flash');
-
-
-
-var  mongoose = require('mongoose');
+var mongoose = require('mongoose');
 var User = mongoose.model('User');
-
 
 module.exports = function(app, config) {
   app.set('views', config.root + '/app/views');
@@ -26,7 +22,6 @@ module.exports = function(app, config) {
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
 
-  // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
@@ -37,85 +32,80 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-   app.use(flash());
-
-  // Configuring Passport
   app.use(expressSession({secret: 'S3Mg1wyXa&jtMA^Ljvehh9TFmj&502qxlQcHEN91F1Nkj4%h4Rja4wjdphB7O4hmA7dcmPuTAP5wO1nR5g!BRpwpz^CXt95lUqGm'}));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  passport.use('local-login',new LocalStrategy(
-    function(username, password, done) {
-      User.findOne({ username: username }, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      });
-    }
-  ));
-
-
-
-  passport.use('local', new LocalStrategy({
-    passReqToCallback : true
-  },
-  function(req, username, password, done) {
-    findOrCreateUser = function(){
-      // find a user in Mongo with provided username
-      User.findOne({'username':username},function(err, user) {
-        // In case of any error return
-        if (err){
-          console.log('Error in SignUp: '+err);
-          return done(err);
-        }
-        // already exists
-        if (user) {
-          console.log('User already exists');
-          return done(null, false, 
-             req.flash('message','User Already Exists'));
-        } else {
-          // if there is no user with that email
-          // create the user
-          var newUser = new User();
-          // set the user's local credentials
-          newUser.username = username;
-          newUser.password = password;
-          newUser.email = req.param('email');
- 
-          // save the user
-          newUser.save(function(err) {
-            if (err){
-              console.log('Error in Saving user: '+err);  
-              throw err;  
-            }
-            console.log('User Registration succesful');    
-            return done(null, newUser);
-          });
-        }
-      });
-    };
-     
-    // Delay the execution of findOrCreateUser and execute 
-    // the method in the next tick of the event loop
-    process.nextTick(findOrCreateUser);
-  })
-);
-
+  app.use(flash());
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   });
-   
+  
   passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
       done(err, user);
     });
   });
+
+  passport.use('local-signup', new LocalStrategy({
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+  function(req, email, password, done) {
+
+    process.nextTick(function() {
+      User.findOne({ 'email' :  email }, function(err, user) {
+        if (err) {
+          console.log(err);
+          return done(err);
+        }   
+
+        if (user) {
+          return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+        } else {
+          var newUser = new User();
+          newUser.email    = email;
+          newUser.password = newUser.generateHash(password);
+          newUser.isAdmin = req.body.isAdmin;
+          newUser.save(function(err) {
+            if (err) {
+              console.log(err);
+              throw err;
+            }
+            return done(null, newUser);
+          });
+        }
+      });
+    });
+  }));
+
+  passport.use('local-login', new LocalStrategy({
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+  function(req, email, password, done) { 
+    User.findOne({ 'email' :  email }, function(err, user) {
+      if (err) {
+        console.log(err);
+        return done(err);
+      }          
+
+      if (!user) {
+        console.log ('user not found');
+        return done(null, false, req.flash('loginMessage', 'No user found.'));
+      }
+
+      if (!user.validPassword(password)) {
+        console.log ('wrong password');
+        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+      }
+
+      return done(null, user);
+    });
+
+  }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
@@ -131,15 +121,15 @@ module.exports = function(app, config) {
   app.use(responses_api);
   app.use(users_api);
 
-global.categories = ['Culture','Money','Innovation','Career Advancement','Other'];
-global.categoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
+  global.categories = ['Culture','Money','Innovation','Career Advancement','Other'];
+  global.categoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 
   app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
   });
-  
+
   if(app.get('env') === 'development'){
     app.use(function (err, req, res, next) {
       res.status(err.status || 500);
@@ -153,11 +143,11 @@ global.categoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: {},
-        title: 'error'
-      });
+    res.render('error', {
+      message: err.message,
+      error: {},
+      title: 'error'
+    });
   });
 
 };

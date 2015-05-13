@@ -9,26 +9,19 @@
 </style>
 
 <main ng-app="journalAdmins">
-
-    <!-- SET THE CONTROLLER AND GET ALL QUESTIONS -->
     <div ng-controller="mainController">
         <div class="container">
-
-            <!-- HEADER AND TODO COUNT -->
             <div class="jumbotron text-center">
                 <h1>Users <span class="label label-info">{{ users.length }}</span></h1>
                 <br>
                 <a href="/createadmin" class="btn btn-default">Create New Admin</a>
             </div>
-
-            <!-- question LIST -->
             <div id="response-list" class="row">
                 <div class="col-sm-10 col-sm-offset-1">
 
-                    <!-- LOOP OVER THE QUESTIONS IN $scope.questions -->
                     <ul class="list-group">
                       <li class="list-group-item" ng-repeat="user in users">
-                    
+
                         <div class="clearfix">
                             <div class="btn-group inline pull-right btn-group-sm">
                                 <button class="btn btn-default"  ng-click="resetPassword($index, user)">
@@ -38,8 +31,9 @@
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>
                             </div>
-                              <span class="inline" style='line-height: 32px;' >{{user.username}} ({{user.email}})</span>
-                              </div>
+                            <span class="inline" style='line-height: 32px;' >{{user.email}}</span>
+                            <span>{{user.isAdmin}}</span>
+                        </div>
                         
                     </li>
                 </ul>
