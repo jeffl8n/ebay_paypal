@@ -1,36 +1,6 @@
 <% include header %>
 <% include navbar %>
 <div class="col-sm-8  col-sm-offset-2">
-<<<<<<< HEAD
- 
-                <h1 class="text-info"><%= user.username %></h1>
- 
-                <% if (message.length > 0) { %>
-                     <div class="alert  alert-danger"><%= message %></div>
-                <% } %>
- 
-                <!-- LOGIN FORM -->
-                <form action="/users/update/<%= user._id %>"  method="post">
-                                <div  class="form-group">
-                                                <label>Email</label>
-                                                <input  type="text" class="form-control" name="email"  value="<%= user.email %>">
-                                </div>
-                                <div  class="form-group">
-                                                <label>Username</label>
-                                                <input  type="text" class="form-control"  name="username" value="<%= user.username %>">
-                                </div>
-                                <div  class="form-group">
-                                                <label>Password</label>
-                                                <input  type="password" class="form-control"  name="password" value="<%= user.password %>">
-                                </div>
- 
-                                <button type="submit" class="btn  btn-warning btn-lg">Update Profile</button>
-                </form>
-                                
-</div>
-=======
->>>>>>> 966bef3eff2e5be4a690b7d46c2f6ad853be44f6
-
   <h1 class="text-info"><%= user.username %></h1>
 
   <% if (message.length > 0) { %>
@@ -41,11 +11,11 @@
   <form action="/users/update/<%= user._id %>"  method="post">
     <div  class="form-group">
       <label>Email</label>
-      <input  type="text" class="form-control" name="email"  placeholder="<%= user.email %>">
+      <input  type="text" class="form-control" name="email"  value="<%= user.email %>">
     </div>
     <div  class="form-group">
       <label>Password</label>
-      <input  type="password" class="form-control"  name="password" placeholder="<%= user.password %>">
+      <input  type="password" class="form-control"  name="password" value="<%= user.password %>">
     </div>
 
     <button type="submit" class="btn  btn-warning btn-lg">Update Profile</button>
