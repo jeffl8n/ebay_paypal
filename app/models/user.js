@@ -22,5 +22,11 @@ UserSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+// checking if password is valid
+UserSchema.methods.company = function() {
+
+  return this.email.substring(this.email.indexOf('@')+1,this.email.indexOf('.'));
+};
+
 mongoose.model('User', UserSchema);
 

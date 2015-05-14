@@ -24,6 +24,35 @@ var sendgrid = require('sendgrid')(config.sg.username, config.sg.password);
         });
     });
 
+//create an admin
+//update profile
+router.post('/users', function(req, res){
+     if(!req.user){
+            res.render('login', { title: 'Login', message: req.flash('loginMessage')  });
+        }
+
+    var token = randomstring.generate();
+     User.create({
+            email : req.body.email,
+          resetToken: token
+        }, function(err, response) {
+            if (err)
+                res.send(err);
+
+            var email = new sendgrid.Email({
+                to: req.body.email,
+                from: req.user.email,
+                subject: 'New Account',
+                html: 'You have been added as an Admin.<br>Please follow this link to create a password:<br><a href="http://'+url.hostname+'/user/reset/'+token+'">http://'+url.hostname+'/user/reset/'+token+'</a> '
+            });
+            sendgrid.send(email, function(err, json){
+                if(err) { return console.error(err); }
+                 res.render('users', { message:"Email invite sent", user: req.user,title: 'Users' });
+            });
+
+        });
+});
+
 //update profile
 router.post('/users/update/:id', function(req, res){
 		 User.findOneAndUpdate(
@@ -49,7 +78,7 @@ router.post('/api/user/reset/:id', function(req, res){
 			to: db_res.email,
 	    	from: db_res.email,
 		    subject: 'Password Reset',
-		    html: 'You have requested to reset your password. <br>Please follow this link to create a new password:<br><a href="http://'+url.hostname+'/user/reset/'+token+'">http://server.com/reset/'+token+'</a> '
+		    html: 'You have requested to reset your password. <br>Please follow this link to create a new password:<br><a href="http://'+url.hostname+'/user/reset/'+token+'">http://'+url.hostname+'/user/reset/'+token+'</a> '
 		});
 	    sendgrid.send(email, function(err, json){
 		    if(err) { return console.error(err); }

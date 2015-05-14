@@ -20,9 +20,11 @@ var Question = mongoose.model('Question');
 
     // get all questions
     router.get('/api/questions/', function(req, res) {
-
+        if(!req.user){
+            res.json({'error':'unauthorized'})
+        }
         // use mongoose to get all questions in the database
-        Question.find(function(err, questions) {
+        Question.find({'group': req.user.company()},function(err, questions) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
@@ -33,17 +35,20 @@ var Question = mongoose.model('Question');
     });
     // create question and send back all questions after creation
     router.post('/api/questions/', function(req, res) {
-
+        if(!req.user){
+            res.json({'error':'unauthorized'})
+        }
         // create a question, information comes from AJAX request from Angular
         Question.create({
             text : req.body.text,
+            group: req.user.company(),
             done : false
         }, function(err, question) {
             if (err)
                 res.send(err);
 
             // get and return all the questions after you create another
-            Question.find(function(err, questions) {
+            Question.find({'group': req.user.company()},function(err, questions) {
                 if (err)
                     res.send(err)
                 res.json(questions);

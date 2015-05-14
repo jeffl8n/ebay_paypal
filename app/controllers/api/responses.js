@@ -34,9 +34,12 @@ var Response = mongoose.model('Response');
     });
 
     router.get('/api/moderate/responses/', function(req, res) {
-
-        // use mongoose to get all responses in the database
-        Response.find({'text': {$ne: null}},function(err, responses) {
+        if(!req.user){
+            res.json({'error':'unauthorized'})
+        }
+        //req.user.company()
+        // use mongoose to get all responses in the database   
+        Response.find({'text': {$ne: null},'group': req.user.company()},function(err, responses) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)

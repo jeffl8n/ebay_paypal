@@ -26,7 +26,7 @@ module.exports = function (app) {
 };
 
 router.get('/', isAuthenticated, function (req, res, next) {
-   res.render('index', { title: 'Home' });
+   res.render('index', {  user: req.user,title: 'Home' });
 });
 
 router.get('/login', function(req, res) {
@@ -34,7 +34,7 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login',
-  passport.authenticate('local-login', { successRedirect: '/questions',
+  passport.authenticate('local-login', { successRedirect: '/',
    failureRedirect: '/login' 
  })
 );
@@ -46,7 +46,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/questions', isAuthenticated, function(req, res) {
-  res.render('questions', { title: 'Questions' });
+  res.render('questions', {  user: req.user,title: 'Questions' });
 });
 
 //this is public
@@ -55,27 +55,16 @@ router.get('/questions/:question_id', function(req, res) {
 });
 
 router.get('/responses', isAuthenticated, function(req, res) {
-  res.render('responses', { title: 'Responses' });
+  res.render('responses', {  user: req.user,title: 'Responses' });
 });
 
 router.get('/users', isAuthenticated, function(req, res) {
-  res.render('users', { title: 'Users' });
+  res.render('users', { user: req.user,title: 'Users' });
 });
 
 router.get('/profile', isAuthenticated, function(req, res) {
   res.render('profile', { message: req.flash('loginMessage'), user: req.user, title: 'Profile' });
 });
 
-//TO-DO: need to protect this later
-router.get('/createadmin', isAdmin, function(req,  res) {
-  res.render('createadmin',  { message: req.flash('loginMessage') ,  title: 'Create Admin'});
-});
-
-
-router.post('/createadmin', isAdmin, passport.authenticate('local-signup', {
-                successRedirect :  '/users', // redirect to the secure profile section
-                failureRedirect :  '/createadmin', // redirect back to the signup page if there is an error
-                failureFlash : true  // allow flash messages
-              }));
 
 

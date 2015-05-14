@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var QuestionSchema = new Schema({
   text: String,
-  group: {type: String, default: 'eBay'},
+  group: {type: String, default: 'ebay'},
   creator: String
 });
 
