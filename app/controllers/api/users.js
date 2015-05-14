@@ -4,6 +4,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var url = require('url') 
 var randomstring = require("randomstring");
+var bcrypt   = require('bcrypt-nodejs');
 var config = require('../../../config/config')
 
 var User = mongoose.model('User');
@@ -55,13 +56,25 @@ router.post('/users', function(req, res){
 
 //update profile
 router.post('/users/update/:id', function(req, res){
-		 User.findOneAndUpdate(
-        {_id : req.params.id}, 
-        {username : req.body.username, email: req.body.email, password: req.body.password }
-        ).exec(function(err, db_res){
-        if (err){ res.send(err)}
-       	res.render('profile', { message: 'Updated', user: db_res, title: 'Profile' });
-    })
+    if(req.body.password){
+        newPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null)
+        User.findOneAndUpdate(
+            {_id : req.params.id}, 
+            {email: req.body.email, password: newPassword }
+            ).exec(function(err, db_res){
+            if (err){ res.send(err)}
+            res.render('profile', { message: 'Updated', user: db_res, title: 'Profile' });
+        })
+    }else{
+        User.findOneAndUpdate(
+            {_id : req.params.id}, 
+            { email: req.body.email }
+            ).exec(function(err, db_res){
+            if (err){ res.send(err)}
+            res.render('profile', { message: 'Updated', user: db_res, title: 'Profile' });
+        })
+    }
+	
 })
 
 

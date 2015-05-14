@@ -1,4 +1,5 @@
 var categoryColorsArray = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
+var company = 'ebay';
 var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives']).filter('classy', function(){
     return function(text){
         return String(text).replace(/ /mg, '-');
@@ -231,7 +232,7 @@ feMerge.append("feMergeNode")
 function createCenter(){
     var svgPie = d3.select('.nv-pieWrap');
     svgPie.append('svg:image')
-    .attr('xlink:href','../images/logo.png')
+    .attr('xlink:href','../images/'+company+'.png')
     .attr('width',120)
     .attr('height',120)
     .attr('x',170)
