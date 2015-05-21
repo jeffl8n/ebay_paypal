@@ -4,6 +4,8 @@ var mongoose = require('mongoose'),
 var QuestionSchema = new Schema({
   text: String,
   group: {type: String, default: 'ebay'},
+  categories: Array,
+  type: String,
   creator: String
 });
 

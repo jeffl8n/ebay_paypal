@@ -1,9 +1,24 @@
 var categoryColorsArray = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 var company = 'ebay';
-var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives']).filter('classy', function(){
+var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives'])
+journalQuestion.filter('classy', function(){
     return function(text){
         return String(text).replace(/ /mg, '-');
     }
+});
+journalQuestion.filter('responseFilter', function(){
+    return function( items, activeCategory) {
+    var filtered = [];
+    console.log('activeCategory ',activeCategory)
+    angular.forEach(items, function(item) {
+       if(activeCategory == 'all' || item.category.match(activeCategory)) {
+          filtered.push(item);
+        }
+
+    });
+
+    return filtered;
+  };
 });
 
 journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
@@ -31,10 +46,15 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
      $scope.$on('stateChange.directive', function(angularEvent, event){
   
-      addEffect(activeCategory )
+     // addEffect(activeCategory )
 
     });
 
+    $scope.xAxisTickFormatFunction = function(){
+        return function(d){
+            return d3.time.format('%b')(new Date(d));
+        }
+    }
 
     $scope.xFunction = function(){
         return function(d) {
@@ -45,6 +65,16 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.yFunction = function(){
         return function(d){
             return d.y;
+        };
+    }
+    $scope.xFunctionBar = function(){
+        return function(x){
+            return x[0];
+        };
+    }
+     $scope.yFunctionBar = function(){
+        return function(y){
+            return y[1];
         };
     }
     
@@ -66,8 +96,10 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
      $scope.pieData = data; 
-     setTimeout(function(){createCenter()},500) ;         
-     createFilter()        
+     if($scope.question.type == 'pie'){
+         setTimeout(function(){createCenter()},500) ;         
+         createFilter()
+     }        
         })
     .error(function(data) {
             //console.log('Error: ' + data);
@@ -148,6 +180,23 @@ $scope.legendClick = function(category){
     $('#vote_'+id).toggleClass('glyphicon-plus').toggleClass('glyphicon-minus')
 
 };
+
+    $scope.flag =function(response){
+        var id = response._id
+ 
+        $http.post('/api/responses/flag/' + id)
+        .success(function(data) {
+
+       })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        }); 
+
+    $('#flag_'+id).removeClass('text-muted').addClass('text-danger')
+
+};
+
+
 }]);
 var activeCategory 
 var activeSlicePath

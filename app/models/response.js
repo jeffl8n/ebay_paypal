@@ -8,6 +8,7 @@ var ResponseSchema = new Schema({
   learner: String,
   question: String,
   votes: {type: Number, default: 1},
+  flags:{type: Number, default: 0},
   when: {type: Date, default: Date.now}
 });
 

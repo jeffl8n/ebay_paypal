@@ -8,8 +8,8 @@ var Question = mongoose.model('Question');
     router.get('/api/questions/:question_id', function(req, res) {
 
         // use mongoose to get all questions in the database
-        Question.findOne(function(err, question) {
-            _id : req.params.question_id
+        Question.findOne({_id : req.params.question_id},function(err, question) {
+            
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
