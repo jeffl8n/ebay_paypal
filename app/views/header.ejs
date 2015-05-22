@@ -25,6 +25,15 @@
     html                    { overflow-y:scroll; }
     body                    { padding-top:50px; }
     .top-form             { margin-bottom:30px; }
+     <% for (pair in categoryColors){ %>
+.<%=categoryColors[pair].catagory%>{
+  color: <%=categoryColors[pair].color%>;
+}
+.<%=categoryColors[pair].catagory%>-bg{
+  background-color: <%=categoryColors[pair].color%>;
+}
+    <%}%>
+   
 </style>
 
 

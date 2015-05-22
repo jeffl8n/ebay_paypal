@@ -39,7 +39,11 @@ var Response = mongoose.model('Response');
         }
         //req.user.company()
         // use mongoose to get all responses in the database   
-        Response.find({'text': {$ne: null},'group': req.user.company()},function(err, responses) {
+        Response.find(
+            {'text': {$ne: null},'group': req.user.company()},
+            null,
+            {sort: {when: -1}},
+            function(err, responses) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
@@ -183,8 +187,22 @@ var Response = mongoose.model('Response');
         })
     });
 
+//reset flags
+    router.delete('/api/responses/flag/:response_id', function(req, res) {
+
+        Response.findOneAndUpdate(
+            {_id : req.params.response_id}, 
+            {'flags': 0}
+            ).exec(function(err, db_res){
+            if (err)
+                    res.send(err)
+                res.json(db_res);
+        })
+    });
+
+
     router.delete('/api/responses/vote/:response_id', function(req, res) {
-        console.log('votting for ', req.params.response_id)
+
         Response.findOneAndUpdate(
             {_id : req.params.response_id}, 
             {$inc: {'votes': -1}}

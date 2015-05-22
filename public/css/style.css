@@ -1,62 +1,21 @@
+@font-face {
+    font-family: paypal;
+    src: url(../fonts/paypal_std.woff);
+}
+
+@font-face {
+    font-family: paypal;
+    src: url(../fonts/paypal_bold.woff);
+    font-weight: bold;
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: paypal !important;
 }
 
 a {
   color: #00B7FF;
 }
 
-   .all {
-            color: #000;
-        }
-
-        .Culture {
-            color: #3071A9;
-        }
-        .Money {
-            color: #5cb85c;
-        }
-        .Innovation {
-            color: #5bc0de;
-        }
-        .Career-Advancement {
-            color: #f0ad4e;
-        }
-        .Other {
-            color: #d9534f;
-        }
-
-         .PayPal {
-            color: #3071A9;
-        }
-          .Square {
-            color: #5bc0de;
-        }
-
-
-        .all-bg {
-             background-color: #000;
-        }
-
-      .Culture-bg {
-            background-color: #3071A9;
-        }
-       .Money-bg  {
-            background-color: #5cb85c;
-        }
-         .Innovation-bg  {
-            background-color: #5bc0de;
-        }
-        .Career-Advancement-bg  {
-            background-color: #f0ad4e;
-        }
-        .Other-bg  {
-            background-color: #d9534f;
-        }
-         .PayPal-bg {
-            background-color: #3071A9;
-        }
-          .Square-bg {
-            background-color: #5bc0de;
-        }
+  

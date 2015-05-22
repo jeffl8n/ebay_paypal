@@ -1,4 +1,4 @@
-var categoryColorsArray = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
+var categoryColorsArray = ['#263B7D','#1895D2','#929292','#80CAB3', '#A32487']; //['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 var company = 'ebay';
 var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives'])
 journalQuestion.filter('classy', function(){
@@ -9,7 +9,6 @@ journalQuestion.filter('classy', function(){
 journalQuestion.filter('responseFilter', function(){
     return function( items, activeCategory) {
     var filtered = [];
-    console.log('activeCategory ',activeCategory)
     angular.forEach(items, function(item) {
        if(activeCategory == 'all' || item.category.match(activeCategory)) {
           filtered.push(item);
