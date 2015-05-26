@@ -35,7 +35,12 @@
     <%}%>
    
 </style>
-
+<script>
+var categoryColors = []
+<% for (pair in categoryColors){ %>
+categoryColors.push({catagory:'<%=categoryColors[pair].catagory%>',color: '<%=categoryColors[pair].color%>'});
+    <%}%>
+</script>
 
   <% if (ENV_DEVELOPMENT) { %>
     <script src="http://localhost:35729/livereload.js"></script>

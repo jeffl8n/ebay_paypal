@@ -134,6 +134,7 @@ var Response = mongoose.model('Response');
           learner: req.body.learner,
           question: req.body.question,
           category: req.body.category,
+          location: req.body.location,
             done : false
         }, function(err, response) {
             if (err)

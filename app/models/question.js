@@ -5,6 +5,7 @@ var QuestionSchema = new Schema({
   text: String,
   group: {type: String, default: 'ebay'},
   categories: Array,
+  locations: Array,
   type: String,
   creator: String
 });

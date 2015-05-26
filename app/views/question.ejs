@@ -69,8 +69,20 @@
                      <div id="response-form" class="row">
                         <div class="col-sm-12" >
                             <h3>{{ question.text }}</h3>
+                            <button ng-if="question.type =='pie'" class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseLocation" aria-expanded="false" aria-controls="collapseExample">
+                                  <span class='pull-left' ng-bind="activeLocation"></span> <span class="glyphicon glyphicon-menu-down pull-right" aria-hidden="true"></span> 
+                              </button>
+
+                              <hr class="dark-hr" ng-hide='responded'>
+
+                              <div class="collapse" id="collapseLocation">
+                              <span ng-hide='!responded' data-toggle="collapse" data-target="#collapseLocation" ng-click='locationSelected("All")' class="select-item">All<hr class="dark-hr"></span>
+                                  <span ng-repeat="location in question.locations" data-toggle="collapse" data-target="#collapseLocation" ng-click='locationSelected(location)' class="select-item">{{ location }}<hr class="dark-hr"></span>
+                              </div>
                             <form class="" ng-hide='responded'>
-                              <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                
+
+                              <button  class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" ng-disabled='!loc_selected && question.pie'>
                                   <span class='pull-left {{formData.category|classy}}' ng-bind="formData.category"></span> <span class="glyphicon glyphicon-menu-down pull-right {{formData.category|classy}}" aria-hidden="true"></span> 
                               </button>
 
@@ -101,7 +113,7 @@
                 <div id="response-list" class="row" >
                     <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:550px; overflow:scroll;">
                         <table class="table {{response.category|classy}}">
-                            <tr class="{{response.category|classy}}" ng-repeat="response in responses | responseFilter:activeCategory" ng-if="response.text.length > 0">
+                            <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:activeCategory | locFilter:activeLocation" ng-if="response.text.length > 0">
                                 <td>
                                     <span style="display:block; width:100%; height: 25px">
                                         <span class='pull-left'><h4>{{response.category}}</h4></span>
@@ -110,6 +122,7 @@
                                         </span>
                                         <hr>
                                         <p>{{ response.text }}</p>
+                                         <span class='pull-left' ><small>{{ response.location }}</small></span>
                                         <span class='pull-right' style="cursor:pointer;">
                                             <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span> 
                                     </td>

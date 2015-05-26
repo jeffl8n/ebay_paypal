@@ -121,18 +121,22 @@ module.exports = function(app, config) {
   app.use(responses_api);
   app.use(users_api);
 
-  global.categories = ['Culture','Money','Innovation','Career Advancement','Other'];
-  //global.categoryColors = ['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
-global.colors = ['#263B7D','#1895D2','#929292','#80CAB3', '#A32487'];
+
+
 global.categoryColors = [
 {catagory:'Culture', color: '#3071A9'},
 {catagory:'Money', color: '#5cb85c'},
 {catagory:'Innovation', color: '#5bc0de'},
 {catagory:'Career-Advancement', color: '#f0ad4e'},
-{catagory:'Other', color: '#d9534f'},
+{catagory:'Opportunity', color: '#3071A9'},
+{catagory:'People', color: '#263B7D'},
+{catagory:'Career-Advancement', color: '#f0ad4e'},
+{catagory:'Other', color: '#1895D2'},
 {catagory:'PayPal', color: '#263B7D'},
 {catagory:'Square', color: '#1895D2'},
-{catagory:'all', color: '#000'},
+{catagory:'Payflow-Link', color: '#263B7D'},
+{catagory:'Payflow-Pro', color: '#1895D2'},
+{catagory:'all', color: '#000'}
 ];
 
   app.use(function (req, res, next) {

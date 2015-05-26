@@ -6,11 +6,25 @@ journalQuestion.filter('classy', function(){
         return String(text).replace(/ /mg, '-');
     }
 });
-journalQuestion.filter('responseFilter', function(){
+journalQuestion.filter('catFilter', function(){
     return function( items, activeCategory) {
     var filtered = [];
     angular.forEach(items, function(item) {
-       if(activeCategory == 'all' || item.category.match(activeCategory)) {
+       if( activeCategory == 'all' || item.category.match(activeCategory) ){
+          filtered.push(item);
+        }
+
+    });
+
+    return filtered;
+  };
+});
+journalQuestion.filter('locFilter', function(){
+    return function( items, activeLocation) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+        console.log("activeLocation: ", activeLocation, " item: ",item.location, " match? ",item.location == activeLocation)
+       if( activeLocation == 'All' || item.location == activeLocation ){
           filtered.push(item);
         }
 
@@ -27,11 +41,17 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.pieData = [];
     $scope.votedFor = [];
     $scope.activeCategory
+    $scope.formData.category = 'Select an answer'
+    $scope.activeLocation = 'Select your location'
     
 
     $scope.colorFunction = function() {
         return function(d, i) {
-            return categoryColorsArray[i];
+            for(var key in categoryColors){
+                if(categoryColors[key].catagory==d.data.key){
+                    return categoryColors[key].color
+                }      
+            }
         };
     }
 
@@ -77,13 +97,17 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
         };
     }
     
-    $scope.formData.category = 'Select an answer'
+    
     // when landing on the page, get all questions and show them
     $http.get('/api/questions/'+qid)
     .success(function(data) {
         $scope.question = data;
         $scope.formData.question = data._id;
         $scope.formData.group = data.group;
+        company = data.group;
+        if(data.type == 'bar'){
+            $scope.activeLocation = 'All'
+        }
         $scope.formData.learner = "mee";
             //console.log(data);
         })
@@ -117,6 +141,15 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
      $scope.formData.category = category
      $scope.activeCategory = category
       addEffect(category)
+ }
+
+
+    $scope.locationSelected = function(location){
+     $scope.loc_selected = true
+     $scope.formData.location = location
+     $scope.activeLocation = location
+     console.log(location)
+
  }
 
  $scope.categoryChange = function(category){
@@ -281,8 +314,8 @@ function createCenter(){
     var svgPie = d3.select('.nv-pieWrap');
     svgPie.append('svg:image')
     .attr('xlink:href','../images/'+company+'.png')
-    .attr('width',120)
-    .attr('height',120)
+    .attr('width',110)
+    .attr('height',110)
     .attr('x',170)
     .attr('y',170);
 
