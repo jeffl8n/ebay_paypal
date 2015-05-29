@@ -15,7 +15,7 @@
         top: 0px;
         width: 680px;
         left: 320px;
-        height: 650px;
+        height: 550px;
         background-color: rgba(207,207,207,.5); 
         z-index: 1000;
     }
@@ -63,9 +63,9 @@
 
         </style>
         <div ng-controller="mainController">
-            <div class="container-fluid" style="height:650px;">
-               <div class="row" style="height:650px;">
-                   <div class="col-sm-4 " id="side_bar" ng-class="{responded: 'greyed-out'}" style="height:650px;" >
+            <div class="container-fluid" style="height:550px;">
+               <div class="row" style="height:550px;">
+                   <div class="col-sm-4 " id="side_bar" ng-class="{responded: 'greyed-out'}" style="height:550px;" >
                      <div id="response-form" class="row">
                         <div class="col-sm-12" >
                             <h3>{{ question.text }}</h3>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8" style="height:650px;">
+                <div class="col-sm-8" style="height:550px;">
                 <div class="row">
                 <div class="col-sm-12">
                     <div class="legendItem" ng-repeat='category in question.categories' ng-click="legendClick(category)" ng-class="{'legend-selected':  activeCategory==category }"><span class="circle {{category|classy}}-bg" ></span> {{category}}</div>
