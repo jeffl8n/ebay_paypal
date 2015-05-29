@@ -316,8 +316,8 @@ function createCenter(){
     .attr('xlink:href','../images/'+company+'.png')
     .attr('width',110)
     .attr('height',110)
-    .attr('x',170)
-    .attr('y',170);
+    .attr('x',150)
+    .attr('y',150);
 
 }
 

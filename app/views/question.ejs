@@ -141,12 +141,12 @@
                 </div>
                 </div>
 
-                    <div ng-if="question.type == 'pie'" id='pieHolder' style="height:510px;">
+                    <div ng-if="question.type == 'pie'" id='pieHolder' style="height:460px; overflow:hidden" >
                         <nvd3-pie-chart
                             data="pieData"
                             id="responseChart"
-                            width="550"
-                            height="550"
+                            width="510"
+                            height="510"
                             x="xFunction()"
                             y="yFunction()"
                             showLegend="false"
