@@ -111,7 +111,7 @@
                 </div>
 
                 <div id="response-list" class="row" >
-                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:550px; overflow:scroll;">
+                    <div class="col-sm-12 {{response.category|classy}}" ng-show='responded' style="height:390px; overflow-y:scroll;">
                         <table class="table {{response.category|classy}}">
                             <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:activeCategory | locFilter:activeLocation" ng-if="response.text.length > 0">
                                 <td>
@@ -141,7 +141,7 @@
                 </div>
                 </div>
 
-                    <div ng-if="question.type == 'pie'" id='pieHolder' style="height:440px; overflow:hidden" >
+                    <div ng-if="question.type == 'pie'" id='pieHolder' style="height:460px; overflow:hidden" >
                         <nvd3-pie-chart
                             data="pieData"
                             id="responseChart"

@@ -23,8 +23,7 @@ journalQuestion.filter('locFilter', function(){
     return function( items, activeLocation) {
     var filtered = [];
     angular.forEach(items, function(item) {
-        console.log("activeLocation: ", activeLocation, " item: ",item.location, " match? ",item.location == activeLocation)
-       if( activeLocation == 'All' || item.location == activeLocation ){
+         if( activeLocation == 'All' || item.location == activeLocation ){
           filtered.push(item);
         }
 
@@ -148,8 +147,6 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
      $scope.loc_selected = true
      $scope.formData.location = location
      $scope.activeLocation = location
-     console.log(location)
-
  }
 
  $scope.categoryChange = function(category){
