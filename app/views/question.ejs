@@ -61,6 +61,18 @@
                 padding: 0px;
             }
 
+            .btn-paypal{
+                background-color: #FF8F1C;
+                color: white;
+                height: 44px;
+                width: 225px;
+                font-size: 14px;
+            }
+            .btn-paypal:hover{
+               color: white;
+                font-size: 15px;
+            }
+
         </style>
         <div ng-controller="mainController">
             <div class="container-fluid" style="height:550px;">
@@ -96,7 +108,7 @@
                                 <textarea ng-disabled="!cat_selected" class="form-control input-lg" style="height:80px;" placeholder="Optional" ng-model="formData.text"></textarea>
                                 <br>
 
-                                <button type="submit" ng-disabled="!cat_selected" class="btn btn-primary" style="" ng-click="createResponse()">Submit</button>
+                                <button type="submit" ng-disabled="!cat_selected" class="btn btn-{{question.group}}" style="" ng-click="createResponse()">Submit</button>
 
                             </div>
                             <div class="form-group">
