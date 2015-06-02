@@ -231,7 +231,7 @@ var activeCategory
 var activeSlicePath
 var activeSlice
 var radius = 200;
-var biggerSlice = d3.svg.arc().outerRadius(210).innerRadius(90);
+var biggerSlice = d3.svg.arc().outerRadius(200).innerRadius(90);
 var normalSlice = d3.svg.arc().outerRadius(180).innerRadius(90);
 function addEffect(category){
 
