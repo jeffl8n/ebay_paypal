@@ -88,7 +88,6 @@ var Response = mongoose.model('Response');
                         cat_values.push([theseCategories[idx],count]) 
                        }
                         
-                        //color: global.categoryColors[idx]
                         if(idx <= theseCategories.length-2){
                             setTimeout(function(){
                                 idx++

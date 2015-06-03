@@ -25,20 +25,33 @@
     html                    { overflow-y:scroll; }
     body                    { padding-top:50px; }
     .top-form             { margin-bottom:30px; }
-     <% for (pair in categoryColors){ %>
-.<%=categoryColors[pair].catagory%>{
-  color: <%=categoryColors[pair].color%>;
+     <% for (pair in paypalColors){ %>
+.paypal .<%=paypalColors[pair].catagory%>{
+  color: <%=paypalColors[pair].color%>;
 }
-.<%=categoryColors[pair].catagory%>-bg{
-  background-color: <%=categoryColors[pair].color%>;
+.paypal .<%=paypalColors[pair].catagory%>-bg{
+  background-color: <%=paypalColors[pair].color%>;
+}
+    <%}%>
+  <% for (pair in ebayColors){ %>
+.ebay .<%=ebayColors[pair].catagory%>{
+  color: <%=ebayColors[pair].color%>;
+}
+.ebay .<%=ebayColors[pair].catagory%>-bg{
+  background-color: <%=ebayColors[pair].color%>;
 }
     <%}%>
    
 </style>
 <script>
-var categoryColors = []
-<% for (pair in categoryColors){ %>
-categoryColors.push({catagory:'<%=categoryColors[pair].catagory%>',color: '<%=categoryColors[pair].color%>'});
+var paypalColors = []
+<% for (pair in paypalColors){ %>
+paypalColors.push({catagory:'<%=paypalColors[pair].catagory%>',color: '<%=paypalColors[pair].color%>'});
+    <%}%>
+
+  var ebayColors = []
+<% for (pair in ebayColors){ %>
+ebayColors.push({catagory:'<%=ebayColors[pair].catagory%>',color: '<%=ebayColors[pair].color%>'});
     <%}%>
 </script>
 

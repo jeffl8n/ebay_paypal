@@ -1,5 +1,5 @@
-var categoryColorsArray = ['#263B7D','#1895D2','#929292','#80CAB3', '#A32487']; //['#3071A9','#5cb85c','#5bc0de','#f0ad4e', '#d9534f'];
 var company = 'ebay';
+var categoryColors = []
 var journalQuestion = angular.module('journalQuestion', [ 'nvd3ChartDirectives'])
 journalQuestion.filter('classy', function(){
     return function(text){
@@ -106,6 +106,11 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
         company = data.group;
         if(data.type == 'bar'){
             $scope.activeLocation = 'All'
+        }
+        if($scope.question.group =="paypal"){
+            categoryColors = paypalColors
+        }else{
+             categoryColors = ebayColors
         }
         $scope.formData.learner = "mee";
             //console.log(data);

@@ -121,9 +121,20 @@ module.exports = function(app, config) {
   app.use(responses_api);
   app.use(users_api);
 
+global.ebayColors = [
+{catagory:'Culture', color: '#3071A9'},
+{catagory:'Innovation', color: '#5cb85c'},
+{catagory:'Opportunity', color: '#5bc0de'},
+{catagory:'People', color: '#f0ad4e'},
+{catagory:'Other', color: '#d9534f'},
+{catagory:'PayPal', color: '#3071A9'},
+{catagory:'Square', color: '#d9534f'},
+{catagory:'Payflow-Link', color: '#d9534f'},
+{catagory:'Payflow-Pro', color: '#5cb85c'},
+{catagory:'all', color: '#000'}
+];
 
-
-global.categoryColors = [
+global.paypalColors = [
 {catagory:'Culture', color: '#003087'},
 {catagory:'Innovation', color: '#009CDE'},
 {catagory:'Opportunity', color: '#B0008E'},
