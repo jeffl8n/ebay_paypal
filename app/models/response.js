@@ -5,6 +5,7 @@ var ResponseSchema = new Schema({
   text: String,
   group: String,
   category: String,
+  sub_category: String,
   location: String,
   learner: String,
   question: String,

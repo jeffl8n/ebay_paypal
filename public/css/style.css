@@ -18,4 +18,34 @@ a {
   color: #00B7FF;
 }
 
-  
+.collapse-text-toggle {
+    font-size: 0.9em;
+    color: #003087;
+    cursor: pointer;
+}
+.collapse-text-toggle:hover {
+    color: #009CDE;
+}
+.collapse-text-toggle:before {
+    content: '\00a0';
+}
+.collapse-text-toggle:after {
+    content: '';
+}
+
+.col-head{
+    height: 60px;
+    background-color: #009CDE;
+    color: white;
+    padding: 10px;
+    font-size: 1.7em;
+ }
+
+ .col-head-alt{
+    background-color: #003087;
+ }
+
+ .response-list{
+ 	height: 480px;
+ 	overflow-y:scroll;
+ }

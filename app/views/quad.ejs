@@ -1,0 +1,285 @@
+<% include header %>
+
+<script type="text/javascript">
+    var qid = '<%= qid %>';
+</script>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<main ng-app="journalQuestion">
+<script src="/js/quad.js"></script>
+
+    <style type="text/css">
+        #coverUp {
+            position: absolute;
+            top: 0px;
+            width: 680px;
+            left: 320px;
+            height: 550px;
+            background-color: rgba(207, 207, 207, .5);
+            z-index: 1000;
+        }
+        
+        .greyed-out {
+            background-color: rgb(237, 237, 237);
+        }
+        
+        .circle {
+            display: inline-block;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+        }
+        
+        .legendItem {
+            border-radius: 18px;
+            border-style: solid;
+            border-color: white;
+            padding: 8px;
+            margin: 5px;
+            width: 175px;
+            height: 40px;
+            cursor: pointer;
+            float: left;
+        }
+        
+        .legend-selected {
+            border-color: rgb(237, 237, 237);
+        }
+        
+        .select-item {
+            display: block;
+            width: 100%;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .dark-hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+        
+        body {
+            padding: 0px;
+        }
+        
+        .btn-paypal {
+            background-color: #FF8F1C;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-paypal:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .btn-ebay {
+            background-color: #F5AF02;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-ebay:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .quad {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-style: solid;
+            border-color: #bbb;
+            border-radius: 2px;
+            border-width: 1px;
+        }
+        
+        .vcenter {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .paypal-text-color{
+            color: #009CDE;
+        }
+
+        .input-group-addon {
+            background-color: #F8F8F8;
+        }
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        .response-header{
+            line-height: 30px; 
+            display:block; 
+            width:100%; 
+            height: 30px; 
+            background-color: #A0A0A0;
+            padding: 0px 10px 0px 10px;
+            color: white;
+        }
+
+
+
+    </style>
+    <div ng-controller="mainController">
+        <div class="container-fluid {{ question.group }}" style="height:550px;">
+            <div class="row" style="height:550px;">
+                <div ng-show='!responded' class="col-sm-2 " id="side_bar" style="height:550px;">
+                    <div style="height:250px; position: relative">
+                        <div class="vcenter paypal-text-color" style="width:100%;  text-align: right;">
+                            <h2 class=" ">Benefits</h2></div>
+                    </div>
+                    <div style="height:200px;position: relative; text-align: right;">
+                        <div class="vcenter paypal-text-color" style="width:100%;  text-align: right;">
+                            <h2 class=" ">Risks</h2></div>
+                    </div>
+                </div>
+                 <div ng-show='responded' class="col-sm-2 " id="side_bar" style="height:550px;">
+                        <h3>{{ question.text }}</h3>
+                        <div class="legendItem" ng-click="activeSubCategory = 'Insider'" ng-class="{'legend-selected':  activeSubCategory=='Insider' }"><span class="circle all-bg" ></span> Insider P.O.V</div>
+                        <div class="legendItem" ng-click="activeSubCategory = 'Outsider'" ng-class="{'legend-selected':  activeSubCategory=='Outsider' }"><span class="circle all-bg" ></span> Outsider P.O.V</div>
+                 </div>
+                <div class="col-sm-8 " style="height:550px;">
+                    
+                    <div id="response-form" ng-show='!responded' class="row">
+                        <div class="col-sm-6">
+
+                            <h3 class="paypal-text-color">Insider P.O.V</h3>
+                            <div class="quad">
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">1.</span>
+                                            <textarea class="form-control custom-control" rows="2" style="resize:none" readonly>Example text</textarea>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">2.</span>
+                                            <textarea ng-model="learnerResponses[0].text" class="form-control custom-control" rows="5" style="resize:none"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="quad">
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">1.</span>
+                                            <textarea class="form-control custom-control" rows="2" style="resize:none" readonly>Example text</textarea>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">2.</span>
+                                            <textarea ng-model="learnerResponses[1].text"  class="form-control custom-control" rows="5" style="resize:none"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <h3 class="paypal-text-color">Outsider P.O.V</h3>
+                            <div class="quad">
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">1.</span>
+                                            <textarea class="form-control custom-control" rows="2" style="resize:none" readonly>Example text</textarea>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">2.</span>
+                                            <textarea ng-model="learnerResponses[2].text" class="form-control custom-control" rows="5" style="resize:none"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="quad">
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">1.</span>
+                                            <textarea class="form-control custom-control" rows="2" style="resize:none" readonly>Example text</textarea>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">2.</span>
+                                            <textarea ng-model="learnerResponses[3].text"  class="form-control custom-control" rows="5" style="resize:none"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div id="response-list" class="row">
+
+                        <div class="col-sm-6 {{response.category|classy}}" ng-show='responded' style="height:525px;">
+                        <div class="col-head">{{activeSubCategory}} P.O.V. Benifits</div>
+                        <div class=" response-list"> 
+                            <table class="table {{response.category|classy}}">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'risks' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6 {{response.category|classy}}" ng-show='responded' style="height:525px;">
+                        <div class="col-head col-head-alt">{{activeSubCategory}} P.O.V. Risks</div>
+                        <div class=" response-list"> 
+                            <table class="table {{response.category|classy}}">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'benefits' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+                    <div id="" class="row" ng-show='!responded'>
+                        <div class="col-sm-2 col-sm-offset-8">
+                            <button type="submit" ng-disabled="" class="btn btn-{{question.group}}" style="" ng-click="createResponses()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+<% include footer %>

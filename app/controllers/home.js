@@ -54,6 +54,11 @@ router.get('/questions/:question_id', function(req, res) {
   res.render('question', { title: 'Question', qid: req.params.question_id });
 });
 
+router.get('/quad/:question_id', function(req, res) {
+  res.render('quad', { title: 'Question', qid: req.params.question_id });
+});
+
+
 router.get('/responses', isAuthenticated, function(req, res) {
   res.render('responses', {  user: req.user,title: 'Responses' });
 });
