@@ -122,6 +122,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
+        console.log(data)
      $scope.pieData = data; 
      if($scope.question.type == 'pie'){
          setTimeout(function(){createCenter()},500) ;         
@@ -152,6 +153,21 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
      $scope.loc_selected = true
      $scope.formData.location = location
      $scope.activeLocation = location
+     var service_url = '/api/responses/count/'+qid
+     if(location != 'All'){
+        service_url += '/'+location
+     }
+     $http.get(service_url)
+                    .success(function(data) {
+                     $scope.pieData = data;  
+
+                    setTimeout(function(){
+                        addEffect(activeCategory)
+                    },500)         
+                        })
+                    .error(function(data) {
+                            //console.log('Error: ' + data);
+                        });
  }
 
  $scope.categoryChange = function(category){

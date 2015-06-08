@@ -68,6 +68,49 @@ var Response = mongoose.model('Response');
         });
     });
     
+
+    // count all responses for a question in location
+    router.get('/api/responses/count/:question_id/:location', function(req, res) {
+        Question.findOne({_id : req.params.question_id},function(err, question) {
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err)
+                var qType = question.type;
+                var theseCategories = question.categories
+               var cat_obj = [];
+               var cat_values = [];
+               var get_count = function(idx){
+                 Response.count({'question' : req.params.question_id, 'category': theseCategories[idx], 'location':req.params.location},function(err, count) {
+                        if (err)
+                            res.send(err)
+                        if(qType == 'pie'){
+                           cat_obj.push({key: theseCategories[idx], y:count}) 
+                       }else{
+                        cat_values.push([theseCategories[idx],count]) 
+                       }
+                        
+                        if(idx <= theseCategories.length-2){
+                            setTimeout(function(){
+                                idx++
+                                get_count(idx);
+                            }, 25)
+                        }else{
+                            if(qType == 'bar'){
+                                console.log('cat_values ', cat_values)
+                                cat_obj = [{key:"Series 1", values:cat_values}]
+                            }
+                            res.json(cat_obj);
+                        }
+
+                    });
+               }
+               get_count(0)
+            
+        }); 
+    });
+
+
+
     // get all responses for a question
     router.get('/api/responses/count/:question_id', function(req, res) {
         Question.findOne({_id : req.params.question_id},function(err, question) {
@@ -105,9 +148,7 @@ var Response = mongoose.model('Response');
                }
                get_count(0)
             
-        });
-
-        
+        }); 
     });
      // get all responses in a category for a question 
     router.get('/api/responses/qid/:question_id/:category', function(req, res) {

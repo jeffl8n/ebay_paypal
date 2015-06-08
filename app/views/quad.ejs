@@ -227,10 +227,10 @@
                     <div id="response-list" class="row">
 
                         <div class="col-sm-6 {{response.category|classy}}" ng-show='responded' style="height:525px;">
-                        <div class="col-head">{{activeSubCategory}} P.O.V. Benifits</div>
+                        <div class="col-head">{{activeSubCategory}} P.O.V. Benefits</div>
                         <div class=" response-list"> 
                             <table class="table {{response.category|classy}}">
-                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'risks' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'benefits' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
                                     <td>
                                         <span class="response-header">
                                         <span > {{ response.votes }} Votes </span>
@@ -250,7 +250,7 @@
                         <div class="col-head col-head-alt">{{activeSubCategory}} P.O.V. Risks</div>
                         <div class=" response-list"> 
                             <table class="table {{response.category|classy}}">
-                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'benefits' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'risks' | subCatFilter:activeSubCategory"  ng-if="response.text.length > 0">
                                     <td>
                                         <span class="response-header">
                                         <span > {{ response.votes }} Votes </span>
