@@ -49,3 +49,11 @@ a {
  	height: 480px;
  	overflow-y:scroll;
  }
+
+ .binary-main{
+    background-color: #009CDE;
+ }
+
+ .binary-alt{
+    background-color: #003087;
+ }

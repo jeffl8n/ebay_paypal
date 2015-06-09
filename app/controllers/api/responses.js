@@ -111,8 +111,9 @@ var Response = mongoose.model('Response');
 
 
 
-    // get all responses for a question
+    // count all responses for a question
     router.get('/api/responses/count/:question_id', function(req, res) {
+        console.log("get em all ===============================")
         Question.findOne({_id : req.params.question_id},function(err, question) {
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
@@ -152,7 +153,7 @@ var Response = mongoose.model('Response');
     });
      // get all responses in a category for a question 
     router.get('/api/responses/qid/:question_id/:category', function(req, res) {
-
+          console.log("get em onr xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         // use mongoose to get all responses in the database
         Response.find({'question' : req.params.question_id,'category' : req.params.category},function(err, responses) {
 
