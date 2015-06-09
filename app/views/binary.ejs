@@ -1,0 +1,231 @@
+<% include header %>
+
+<script type="text/javascript">
+    var qid = '<%= qid %>';
+</script>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<main ng-app="journalQuestion">
+<script src="/js/binary.js"></script>
+
+    <style type="text/css">
+        #coverUp {
+            position: absolute;
+            top: 0px;
+            width: 680px;
+            left: 320px;
+            height: 550px;
+            background-color: rgba(207, 207, 207, .5);
+            z-index: 1000;
+        }
+        
+        .greyed-out {
+            background-color: rgb(237, 237, 237);
+        }
+        
+        .circle {
+            display: inline-block;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+        }
+        
+        .legendItem {
+            border-radius: 18px;
+            border-style: solid;
+            border-color: white;
+            padding: 8px;
+            margin: 5px;
+            width: 175px;
+            height: 40px;
+            cursor: pointer;
+            float: left;
+        }
+        
+        .legend-selected {
+            border-color: rgb(237, 237, 237);
+        }
+        
+        .select-item {
+            display: block;
+            width: 100%;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .dark-hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+        
+        body {
+            padding: 0px;
+        }
+        
+        .btn-paypal {
+            background-color: #FF8F1C;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-paypal:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .btn-ebay {
+            background-color: #F5AF02;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-ebay:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .quad {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-style: solid;
+            border-color: #bbb;
+            border-radius: 2px;
+            border-width: 1px;
+        }
+        
+        .vcenter {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .paypal-text-color{
+            color: #009CDE;
+        }
+
+        .input-group-addon {
+            background-color: #F8F8F8;
+        }
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        .response-header{
+            line-height: 30px; 
+            display:block; 
+            width:100%; 
+            height: 30px; 
+            background-color: #A0A0A0;
+            padding: 0px 10px 0px 10px;
+            color: white;
+        }
+
+.right-border {
+    border-right: 1px solid #ccc;
+}
+
+.bottom-border {
+    border-bottom: 1px solid #ccc;
+}
+
+
+    </style>
+    <div ng-controller="mainController">
+        <div class="container-fluid {{ question.group }}" style="height:550px;">
+            <div class="row" style="height:280px"ng-show='!responded' >
+                 <div class="col-sm-8 ">
+                        <h3>{{ question.text }}</h3>
+            
+                 </div>
+            </div>
+            <div class="row" ng-show='!responded' >
+                 <div class="col-sm-2 right-border">
+                        <h3 class="paypal-text-color">Select One</h3>
+                        <div class="legendItem" ng-click="activeCategory = 'PayPal'" ng-class="{'legend-selected':  activeCategory=='PayPal' }"><span class="circle binary-main" ></span> PayPal</div>
+                        <div class="legendItem" ng-click="activeCategory = 'QuickBooks'" ng-class="{'legend-selected':  activeCategory=='QuickBooks' }"><span class="circle binary-alt" ></span> QuickBooks</div>
+                 </div>
+                 <div class="col-sm-5 ">
+                        <h3 class="paypal-text-color">Reason for your decision</h3>
+                        <textarea ng-disabled="!activeCategory" class="form-control input-lg" style="height:120px;" placeholder="Type your reason here" ng-model="formData.text"></textarea>
+                 </div>
+                <div class="col-sm-2 " style="height:220px;position: relative;">
+                    <div class="vcenter">
+                        <button type="submit" ng-disabled="!activeCategory" class="btn btn-{{question.group}}" style="" ng-click="createResponse()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <!-- after response -->
+            <div class="row" style="height:550px" ng-show='responded' >
+                 <div class="col-sm-4 ">
+                        <h3>{{ question.text }}</h3>
+                    <div id='pieHolder' class="bottom-border" style="height:200px">
+                        <nvd3-discrete-bar-chart
+                            data="pieData"
+                            id="responseChart"
+                            width="200"
+                            height="300"
+                            x="xFunctionBar()"
+                            y="yFunctionBar()"
+                             valueFormat="valueFormatFunction()"
+                             color="colorFunction()"
+                            showValues="true">
+                                <svg></svg>
+                        </nvd3-discrete-bar-chart> 
+                    </div>
+                    <div class="legendItem" ><span class="circle binary-main" ></span> PayPal</div>
+                        <div class="legendItem" ><span class="circle binary-alt" ></span> QuickBooks</div>
+            
+                 </div>
+                   <div class="col-sm-4 {{response.category|classy}}" style="height:525px;">
+                        <div class="col-head">PayPal</div>
+                        <div class=" response-list"> 
+                            <table class="table {{response.category|classy}}">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'PayPal'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-4 {{response.category|classy}}" style="height:525px;">
+                        <div class="col-head col-head-alt">QuickBooks</div>
+                        <div class=" response-list"> 
+                            <table class="table {{response.category|classy}}">
+                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'QuickBooks'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+            </div>
+
+    </div>
+</main>
+
+<% include footer %>
