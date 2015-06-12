@@ -57,3 +57,21 @@ a {
  .binary-alt{
     background-color: #003087;
  }
+
+    .legendItem{
+        border-radius: 18px;
+        border-style: solid;
+        border-color: white;
+        padding: 8px;
+        margin: 5px;
+        width: 175px;
+        height: 40px;
+        cursor:pointer;
+        float: left;
+    }
+ 
+
+.legend-selected {
+
+   border-color: rgb(104,104,104) ; 
+}

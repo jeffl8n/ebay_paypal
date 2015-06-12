@@ -29,24 +29,9 @@
             width: 14px;
             height: 14px;
         }
-        
-        .legendItem {
-            border-radius: 18px;
-            border-style: solid;
-            border-color: white;
-            padding: 8px;
-            margin: 5px;
-            width: 175px;
-            height: 40px;
-            cursor: pointer;
-            float: left;
-        }
-        
-        .legend-selected {
-            border-color: rgb(237, 237, 237);
-        }
-        
-        .select-item {
+
+
+          .select-item {
             display: block;
             width: 100%;
             margin-left: 20px;
@@ -136,24 +121,28 @@
     border-bottom: 1px solid #ccc;
 }
 
+.bg-image{
+    background-image: url('../images/<%= qid %>.png');
+        background-size: cover;
+    background-repeat: no-repeat;
+}
+
 
     </style>
     <div ng-controller="mainController">
         <div class="container-fluid {{ question.group }}" style="height:550px;">
-            <div class="row" style="height:280px"ng-show='!responded' >
-                 <div class="col-sm-8 ">
-                        <h3>{{ question.text }}</h3>
-            
+            <div class="row  bg-image" style="height:280px" ng-show='!responded' >
+                 <div class="col-sm-8" >
+                        <h3>{{ question.slide }}: {{ question.text }}</h3>            
                  </div>
             </div>
             <div class="row" ng-show='!responded' >
                  <div class="col-sm-2 right-border">
-                        <h3 class="paypal-text-color">Select One</h3>
-                        <div class="legendItem" ng-click="activeCategory = 'PayPal'" ng-class="{'legend-selected':  activeCategory=='PayPal' }"><span class="circle binary-main" ></span> PayPal</div>
-                        <div class="legendItem" ng-click="activeCategory = 'QuickBooks'" ng-class="{'legend-selected':  activeCategory=='QuickBooks' }"><span class="circle binary-alt" ></span> QuickBooks</div>
+                        <h3 class="{{question.group}}-text-color">Select One</h3>
+        <div class="legendItem" ng-repeat="category in question.categories" ng-click="categorySelected(category) " ng-class="{'legend-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}}" ></span> {{category}}</div>
                  </div>
                  <div class="col-sm-5 ">
-                        <h3 class="paypal-text-color">Reason for your decision</h3>
+                        <h3 class="{{question.group}}-text-color">Reason for your decision</h3>
                         <textarea ng-disabled="!activeCategory" class="form-control input-lg" style="height:120px;" placeholder="Type your reason here" ng-model="formData.text"></textarea>
                  </div>
                 <div class="col-sm-2 " style="height:220px;position: relative;">
@@ -180,15 +169,15 @@
                                 <svg></svg>
                         </nvd3-discrete-bar-chart> 
                     </div>
-                    <div class="legendItem" ><span class="circle binary-main" ></span> PayPal</div>
-                        <div class="legendItem" ><span class="circle binary-alt" ></span> QuickBooks</div>
+                    <div class="legendItem" ng-repeat="category in question.categories"><span class="circle binary-{{$odd?'alt':'main'}}" ></span> {{category}}</div>
+ 
             
                  </div>
-                   <div class="col-sm-4 {{response.category|classy}}" style="height:525px;">
-                        <div class="col-head">PayPal</div>
+                   <div class="col-sm-4" ng-repeat="category in question.categories" style="height:525px;">
+                        <div class="col-head {{$odd?'col-head-alt':''}}">{{category}}</div>
                         <div class=" response-list"> 
-                            <table class="table {{response.category|classy}}">
-                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'PayPal'"  ng-if="response.text.length > 0">
+                            <table class="table">
+                                <tr class="" ng-repeat="response in responses | catFilter:category"  ng-if="response.text.length > 0">
                                     <td>
                                         <span class="response-header">
                                         <span > {{ response.votes }} Votes </span>
@@ -204,26 +193,6 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-4 {{response.category|classy}}" style="height:525px;">
-                        <div class="col-head col-head-alt">QuickBooks</div>
-                        <div class=" response-list"> 
-                            <table class="table {{response.category|classy}}">
-                                <tr class="{{response.category|classy}}" ng-repeat="response in responses | catFilter:'QuickBooks'"  ng-if="response.text.length > 0">
-                                    <td>
-                                        <span class="response-header">
-                                        <span > {{ response.votes }} Votes </span>
-                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
-                                       
-                                        </span>
-                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
-                                        <span class='pull-right' style="cursor:pointer;">
-                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </div>
-            </div>
 
     </div>
 </main>

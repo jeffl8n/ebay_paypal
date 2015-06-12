@@ -41,6 +41,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.votedFor = [];
     $scope.responseCount = 0;
     $scope.activeSubCategory;
+    $scope.activeCategory = "test";
      $scope.formData = {};
 
     $http.get('/api/questions/'+qid)
@@ -88,7 +89,6 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     $scope.colorFunction = function() {
         return function(d, i) {
-            console.log(d[0])
             for(var key in categoryColors){
                 if(categoryColors[key].catagory==d[0]){
                     return categoryColors[key].color
