@@ -139,7 +139,7 @@
             <div class="row" ng-show='!responded' >
                  <div class="col-sm-2 right-border">
                         <h3 class="{{question.group}}-text-color">Select One</h3>
-        <div class="legendItem" ng-repeat="category in question.categories" ng-click="categorySelected(category) " ng-class="{'legend-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}}" ></span> {{category}}</div>
+        <div class="legendItem" ng-repeat="category in question.categories" ng-click="categorySelected(category, $index) " ng-class="{'legend-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}}" ></span>{{category}}</div>
                  </div>
                  <div class="col-sm-5 ">
                         <h3 class="{{question.group}}-text-color">Reason for your decision</h3>

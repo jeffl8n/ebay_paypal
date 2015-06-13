@@ -43,6 +43,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.activeSubCategory;
     $scope.activeCategory = "test";
      $scope.formData = {};
+     $scope.selectedIndex = 0;
 
     $http.get('/api/questions/'+qid)
     .success(function(data) {
@@ -80,7 +81,8 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
         console.log('Error: ' + data);
     });
 
-    $scope.categorySelected = function(category){
+    $scope.categorySelected = function(category, idx){
+         $scope.selectedIndex = idx
      $scope.cat_selected = true
      $scope.activeCategory = category
 
@@ -89,11 +91,11 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     $scope.colorFunction = function() {
         return function(d, i) {
-            for(var key in categoryColors){
-                if(categoryColors[key].catagory==d[0]){
-                    return categoryColors[key].color
-                }      
-            }
+           if(i == 0){
+            return '#009CDE'
+           }else{
+            return '#003087'
+           }
         };
     }
 
@@ -146,6 +148,7 @@ $scope.valueFormatFunction = function(){
                 $scope.responded =true
                 $http.get('/api/responses/count/'+qid)
                     .success(function(data) {
+                    window.parent.postMessage(["playClip", $scope.selectedIndex+1], '*');
                      $scope.pieData = data; 
                      angular.forEach($scope.pieData[0]['values'], function(value, key){
                         $scope.responseCount += value[1];
