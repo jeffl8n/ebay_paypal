@@ -122,7 +122,6 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     $http.get('/api/responses/count/'+qid)
     .success(function(data) {
-        console.log(data)
      $scope.pieData = data; 
      if($scope.question.type == 'pie'){
          setTimeout(function(){createCenter()},500) ;         
@@ -284,6 +283,7 @@ function resetSlices(){
         d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
         d3.select(this).select('path').style("filter", null)
     })
+
 }
 
 var svg;
@@ -291,6 +291,7 @@ var defs;
 var filter;
 
 function createFilter(){
+
 svg = d3.select('svg');
 // filters go in defs element
 defs = svg.append("defs");
@@ -336,6 +337,22 @@ function createCenter(){
     .attr('height',110)
     .attr('x',150)
     .attr('y',150);
+
+    
+    var labels = d3.selectAll('.nv-label')
+    labels.each(function(d,i){
+        var top_str = d3.select(this).attr('transform')
+        var top = Number(top_str.substring(0, top_str.length - 1).split(',')[1])
+        if(top > 0){
+              console.log(top) 
+              d3.select(this).select('text').attr('transform', function(d,i,j) {
+                    return 'translate (0, 10) ' 
+                }) ;    
+        }
+
+    })
+
+
 
 }
 

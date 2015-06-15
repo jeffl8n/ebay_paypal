@@ -75,3 +75,10 @@ a {
 
    border-color: rgb(104,104,104) ; 
 }
+
+
+.nvd3 text{
+    fill: white !important;
+    font-family: paypal !important;
+    font-size: 25px !important;
+}

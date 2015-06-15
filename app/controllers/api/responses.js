@@ -113,7 +113,6 @@ var Response = mongoose.model('Response');
 
     // count all responses for a question
     router.get('/api/responses/count/:question_id', function(req, res) {
-        console.log("get em all ===============================")
         Question.findOne({_id : req.params.question_id},function(err, question) {
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
