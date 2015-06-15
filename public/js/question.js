@@ -184,6 +184,7 @@ $scope.legendClick = function(category){
         resetSlices()
        $http.post('/api/responses', $scope.formData)
        .success(function(data) {
+                $scope.activeLocation = 'All'
                 $scope.activeCategory = $scope.formData.category
                 $scope.formData = {}; // clear the form so our user is ready to enter another
                 $scope.responses = data;
@@ -338,7 +339,7 @@ function createCenter(){
     .attr('x',150)
     .attr('y',150);
 
-    
+
     var labels = d3.selectAll('.nv-label')
     labels.each(function(d,i){
         var top_str = d3.select(this).attr('transform')
