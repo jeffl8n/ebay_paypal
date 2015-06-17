@@ -127,6 +127,45 @@
     background-repeat: no-repeat;
 }
 
+ .binary-main{
+    
+    border: solid #009CDE;
+ }
+
+ .binary-alt{
+    border: solid  #003087;
+ }
+
+ .binary-main-selected{
+    
+    background-color:#009CDE;
+ }
+
+ .binary-alt-selected{
+    background-color: #003087;
+ }
+
+ .binary-item{
+        border-radius: 18px;
+        border-style: solid;
+        border-color: white;
+        padding: 8px;
+        margin: 5px;
+        width: 175px;
+        min-height: 40px;
+        cursor:pointer;
+        float: left;
+        font-size: 16px;
+    }
+ 
+
+.binary-item-selected {
+
+   border-color: rgb(104,104,104) ; 
+}
+
+     
+
 
     </style>
     <div ng-controller="mainController">
@@ -139,7 +178,7 @@
             <div class="row" ng-show='!responded' >
                  <div class="col-sm-2 right-border">
                         <h3 class="{{question.group}}-text-color">Select One</h3>
-        <div class="legendItem" ng-repeat="category in question.categories" ng-click="categorySelected(category, $index) " ng-class="{'legend-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}}" ></span>{{category}}</div>
+        <div class="binary-item" ng-repeat="category in question.categories" ng-click="categorySelected(category, $index) " ng-class="{'binary-item-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}} {{activeCategory==category ? $odd?'binary-alt-selected':'binary-main-selected': ''}}" ></span> {{category}}</div>
                  </div>
                  <div class="col-sm-5 ">
                         <h3 class="{{question.group}}-text-color">Reason for your decision</h3>

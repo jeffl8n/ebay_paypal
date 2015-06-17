@@ -252,10 +252,10 @@ var activeCategory
 var activeSlicePath
 var activeSlice
 var radius = 200;
-var biggerSlice = d3.svg.arc().outerRadius(200).innerRadius(90);
-var normalSlice = d3.svg.arc().outerRadius(180).innerRadius(90);
+var biggerSlice = d3.svg.arc().outerRadius(174).innerRadius(75);
+var normalSlice = d3.svg.arc().outerRadius(164).innerRadius(82);
 function addEffect(category){
-
+console.log('adding')
 activeCategory  = category
 var arcs = d3.selectAll(".nv-slice")
 arcs.each(function(d,i){
@@ -275,7 +275,7 @@ arcs.sort(function(a,b){
     if(a['data']['key'] != category) return -1
         else return 1
 })
-
+moveThingsAround()
 }
 
 function resetSlices(){
@@ -284,6 +284,7 @@ function resetSlices(){
         d3.select(this).select('path').transition().duration(200).attr("d",normalSlice)
         d3.select(this).select('path').style("filter", null)
     })
+     moveThingsAround()
 
 }
 
@@ -331,29 +332,43 @@ feMerge.append("feMergeNode")
 }
 
 function createCenter(){
+   moveThingsAround()
+
     var svgPie = d3.select('.nv-pieWrap');
     svgPie.append('svg:image')
     .attr('xlink:href','../images/'+company+'.png')
     .attr('width',110)
     .attr('height',110)
-    .attr('x',150)
-    .attr('y',150);
+    .attr('x',152)
+    .attr('y',145);
 
 
+    
+
+
+
+}
+
+function moveThingsAround(){
+/*
+    var pieChart = d3.select('.nv-pieChart')
+
+    pieChart.attr('transform', function(d,i,j) {
+                    return 'translate (50, 0) ' 
+                }) ; 
+
+*/
     var labels = d3.selectAll('.nv-label')
     labels.each(function(d,i){
         var top_str = d3.select(this).attr('transform')
         var top = Number(top_str.substring(0, top_str.length - 1).split(',')[1])
         if(top > 0){
-              console.log(top) 
               d3.select(this).select('text').attr('transform', function(d,i,j) {
-                    return 'translate (0, 10) ' 
+                    return 'translate (0, 18) ' 
                 }) ;    
         }
 
     })
-
-
 
 }
 

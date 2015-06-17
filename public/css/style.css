@@ -50,15 +50,9 @@ a {
  	overflow-y:scroll;
  }
 
- .binary-main{
-    background-color: #009CDE;
- }
 
- .binary-alt{
-    background-color: #003087;
- }
 
-    .legendItem{
+.legendItem{
         border-radius: 18px;
         border-style: solid;
         border-color: white;
