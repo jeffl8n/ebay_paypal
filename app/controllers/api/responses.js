@@ -117,7 +117,7 @@ var Response = mongoose.model('Response');
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
-                var qType = question.type;
+                var qType = "pie" //question.type;
                 var theseCategories = question.categories
                var cat_obj = [];
                var cat_values = [];
@@ -138,9 +138,10 @@ var Response = mongoose.model('Response');
                             }, 25)
                         }else{
                             if(qType == 'bar'){
-                                console.log('cat_values ', cat_values)
+                                
                                 cat_obj = [{key:"Series 1", values:cat_values}]
                             }
+                            console.log('...................... cat_values ', cat_values)
                             res.json(cat_obj);
                         }
 

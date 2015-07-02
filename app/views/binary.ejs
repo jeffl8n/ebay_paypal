@@ -194,21 +194,25 @@
             <div class="row" style="height:550px" ng-show='responded' >
                  <div class="col-sm-4 ">
                         <h3>{{ question.text }}</h3>
-                    <div id='pieHolder' class="bottom-border" style="height:200px">
-                        <nvd3-discrete-bar-chart
+                    <div id='pieHolder' class="bottom-border" style="height:320px; position: relative; top: -100px;">
+                        <nvd3-pie-chart
                             data="pieData"
                             id="responseChart"
-                            width="200"
-                            height="300"
-                            x="xFunctionBar()"
-                            y="yFunctionBar()"
-                             valueFormat="valueFormatFunction()"
-                             color="colorFunction()"
-                            showValues="true">
-                                <svg></svg>
-                        </nvd3-discrete-bar-chart> 
+                            width="300"
+                            height="400"
+                            x="xFunction()"
+                            y="yFunction()"
+                            showLegend="false"
+                            legendradiobuttonmode = "false"
+                            pieLabelsOutside="false"
+                            showLabels="true"
+                           labelType="value"
+                           legendColor="colorFunction()"
+                            color="colorFunction()">
+                            <svg></svg>
+                        </nvd3-pie-chart>
                     </div>
-                    <div class="legendItem" ng-repeat="category in question.categories"><span class="circle binary-{{$odd?'alt':'main'}}" ></span> {{category}}</div>
+                    <div class="legendItem" ng-repeat="category in question.categories" style="position: relative; top: -100px;"><span class="circle binary-{{$odd?'alt':'main'}}" ></span> {{category}}</div>
  
             
                  </div>

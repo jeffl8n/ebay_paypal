@@ -150,6 +150,7 @@ $scope.valueFormatFunction = function(){
                     .success(function(data) {
                     window.parent.postMessage(["playClip", $scope.selectedIndex+1], '*');
                      $scope.pieData = data; 
+                     console.log(data)
                      angular.forEach($scope.pieData[0]['values'], function(value, key){
                         $scope.responseCount += value[1];
                       })       
