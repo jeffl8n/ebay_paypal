@@ -96,6 +96,11 @@
             color: #009CDE;
         }
 
+                .ebay-text-color{
+            color: #3071A9;
+        }
+
+
         .input-group-addon {
             background-color: #F8F8F8;
         }
@@ -121,11 +126,11 @@
             <div class="row" style="height:550px;">
                 <div ng-show='!responded' class="col-sm-2 " id="side_bar" style="height:550px;">
                     <div style="height:250px; position: relative">
-                        <div class="vcenter paypal-text-color" style="width:100%;  text-align: right;">
+                        <div class="vcenter {{question.group}}-text-color" style="width:100%;  text-align: right;">
                             <h2 class=" ">Benefits</h2></div>
                     </div>
                     <div style="height:200px;position: relative; text-align: right;">
-                        <div class="vcenter paypal-text-color" style="width:100%;  text-align: right;">
+                        <div class="vcenter {{question.group}}-text-color" style="width:100%;  text-align: right;">
                             <h2 class=" ">Risks</h2></div>
                     </div>
                 </div>
@@ -139,7 +144,7 @@
                     <div id="response-form" ng-show='!responded' class="row">
                         <div class="col-sm-6">
 
-                            <h3 class="paypal-text-color">Insider P.O.V</h3>
+                            <h3 class="{{question.group}}-text-color">Insider Point of View</h3>
                             <div class="quad">
                                 <form>
                                     <div class="form-group">
@@ -173,7 +178,7 @@
                         </div>
                         <div class="col-sm-6">
 
-                            <h3 class="paypal-text-color">Outsider P.O.V</h3>
+                            <h3 class="{{question.group}}-text-color">Outsider Point of View</h3>
                             <div class="quad">
                                 <form>
                                     <div class="form-group">

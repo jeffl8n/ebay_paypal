@@ -33,7 +33,7 @@ a {
     content: '';
 }
 
-.col-head{
+.paypal .col-head{
     height: 60px;
     background-color: #009CDE;
     color: white;
@@ -41,12 +41,24 @@ a {
     font-size: 1.7em;
  }
 
- .col-head-alt{
+ .paypal .col-head-alt{
     background-color: #003087;
  }
 
+ .ebay .col-head{
+    height: 80px;
+    background-color: #3071A9;
+    color: white;
+    padding: 10px;
+    font-size: 1.7em;
+ }
+
+ .ebay .col-head-alt{
+    background-color: #5bc0de;
+ }
+
  .response-list{
- 	height: 480px;
+ 	height: 450px;
  	overflow-y:scroll;
  }
 
@@ -58,7 +70,7 @@ a {
         border-color: white;
         padding: 8px;
         margin: 5px;
-        width: 175px;
+        width: 160px;
         height: 40px;
         cursor:pointer;
         float: left;

@@ -41,7 +41,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.votedFor = [];
     $scope.responseCount = 0;
     $scope.activeSubCategory;
-    $scope.activeCategory = "test";
+    $scope.activeCategory;
      $scope.formData = {};
      $scope.selectedIndex = 0;
 
@@ -92,9 +92,9 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
     $scope.colorFunction = function() {
         return function(d, i) {
            if(i == 0){
-            return '#009CDE'
+            return company == 'paypal'? '#009CDE': '#3071A9'
            }else{
-            return '#003087'
+            return  company == 'paypal'? '#003087': '#5bc0de'
            }
         };
     }

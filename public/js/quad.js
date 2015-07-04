@@ -98,8 +98,8 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     // when submitting the add form, send the text to the node API
     $scope.createResponses = function() {
+        window.parent.postMessage(["playClip", $scope.selectedIndex+1], '*');
         angular.forEach($scope.learnerResponses, function(response) {
-          console.log(response)
           $http.post('/api/responses', response)
            .success(function(data) {
                     $scope.responses = data;
