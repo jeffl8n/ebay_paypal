@@ -171,7 +171,7 @@
         border-color: white;
         padding: 8px;
         margin: 5px;
-        width: 155px;
+        width: 190px;
         min-height: 40px;
         cursor:pointer;
         float: left;
@@ -196,7 +196,7 @@
                  </div>
             </div>
             <div class="row" ng-show='!responded' >
-                 <div class="col-sm-2 right-border">
+                 <div class="col-sm-3 right-border">
                         <h3 class="{{question.group}}-text-color">Select One</h3>
         <div class="binary-item" ng-repeat="category in question.categories" ng-click="categorySelected(category, $index) " ng-class="{'binary-item-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}} {{activeCategory==category ? $odd?'binary-alt-selected':'binary-main-selected': ''}}" ></span> {{category}}</div>
                  </div>
@@ -212,7 +212,7 @@
             </div>
             <!-- after response -->
             <div class="row" style="height:550px" ng-show='responded' >
-                 <div class="col-sm-4 ">
+                 <div class="col-sm-4" style="height:450px">
                         <h3>{{ question.text }}</h3>
                     <div id='pieHolder' class="bottom-border" style="height:320px; position: relative; top: -100px;">
                         <nvd3-pie-chart
