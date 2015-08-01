@@ -54,6 +54,8 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
         };
     }
 
+
+
     $scope.$on('elementClick.directive', function(angularEvent, event){
         $scope.$apply(function () {               // 3
             $scope.activeCategory = event.label
@@ -173,6 +175,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
      addEffect(category)
     
 }
+
 
 $scope.legendClick = function(category){
     $scope.activeCategory = category

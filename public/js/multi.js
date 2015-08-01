@@ -51,7 +51,7 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
         $scope.formData.question = data._id;
         company = data.group;
         if($scope.question.group =="paypal"){
-            categoryColors = [{catagory:'PayPal',color: '#009CDE'},{catagory:'QuickBooks',color: '#003087'}]
+            categoryColors = paypalColors;//[{catagory:'PayPal',color: '#009CDE'},{catagory:'QuickBooks',color: '#003087'}]
         }else{
              categoryColors = ebayColors
         }
@@ -104,11 +104,12 @@ journalQuestion.controller('mainController',  ['$scope', '$http', '$timeout', fu
 
     $scope.colorFunction = function() {
         return function(d, i) {
-           if(i == 0){
-            return company == 'paypal'? '#009CDE': '#3071A9'
-           }else{
-            return  company == 'paypal'? '#003087': '#5bc0de'
-           }
+            var category = String(d.data.key).replace(/ /mg, '-');
+         for(var key in categoryColors){
+                if(categoryColors[key].catagory==category){
+                    return categoryColors[key].color
+                }      
+            }
         };
     }
 

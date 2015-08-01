@@ -144,6 +144,10 @@ global.paypalColors = [
 {catagory:'Square', color: '#99999A'},
 {catagory:'Payflow-Link', color: '#99999A'},
 {catagory:'Payflow-Pro', color: '#009CDE'},
+{catagory:'PayPal-Pro', color: '#7AE1BF'},
+{catagory:'PayPal-Here', color: '#003087'},
+{catagory:'PayPal-Credit', color: '#009CDE'},
+{catagory:'PayPal-Standard', color: '#B0008E'},
 {catagory:'all', color: '#000'}
 ];
 

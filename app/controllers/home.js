@@ -58,11 +58,18 @@ router.get('/quad/:question_id', function(req, res) {
   res.render('quad', { title: 'Question', qid: req.params.question_id });
 });
 
+
+router.get('/response_list/:question_id', function(req, res) {
+  res.render('response_list', { title: 'Question', qid: req.params.question_id });
+});
+
 router.get('/binary/:question_id', function(req, res) {
   res.render('binary', { title: 'Question', qid: req.params.question_id });
 });
 
-
+router.get('/multi/:question_id', function(req, res) {
+  res.render('multi', { title: 'Question', qid: req.params.question_id });
+});
 
 router.get('/responses', isAuthenticated, function(req, res) {
   res.render('responses', {  user: req.user,title: 'Responses' });

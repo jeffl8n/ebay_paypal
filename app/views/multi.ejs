@@ -1,0 +1,240 @@
+<% include header %>
+
+<script type="text/javascript">
+    var qid = '<%= qid %>';
+</script>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<main ng-app="journalQuestion">
+<script src="/js/multi.js"></script>
+
+    <style type="text/css">
+        #coverUp {
+            position: absolute;
+            top: 0px;
+            width: 680px;
+            left: 320px;
+            height: 550px;
+            background-color: rgba(207, 207, 207, .5);
+            z-index: 1000;
+        }
+        
+        .greyed-out {
+            background-color: rgb(237, 237, 237);
+        }
+        
+        .circle {
+            display: inline-block;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+        }
+
+
+          .select-item {
+            display: block;
+            width: 100%;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .dark-hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+        
+        body {
+            padding: 0px;
+        }
+        
+        .btn-paypal {
+            background-color: #FF8F1C;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-paypal:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .btn-ebay {
+            background-color: #F5AF02;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-ebay:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .quad {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-style: solid;
+            border-color: #bbb;
+            border-radius: 2px;
+            border-width: 1px;
+        }
+        
+        .vcenter {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .paypal-text-color{
+            color: #009CDE;
+        }
+        .ebay-text-color{
+            color: #3071A9;
+        }
+
+        .input-group-addon {
+            background-color: #F8F8F8;
+        }
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        .response-header{
+            line-height: 30px; 
+            display:block; 
+            width:100%; 
+            height: 30px; 
+            background-color: #A0A0A0;
+            padding: 0px 10px 0px 10px;
+            color: white;
+        }
+
+.right-border {
+    border-right: 1px solid #ccc;
+}
+
+.bottom-border {
+    border-bottom: 1px solid #ccc;
+}
+
+.bg-image{
+    background-image: url('../images/<%= qid %>.png');
+        background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+ .paypal .binary-main{
+    border: solid #009CDE;
+ }
+
+  .paypal .binary-alt{
+    border: solid  #003087;
+ }
+
+  .paypal .binary-main-selected{
+    background-color:#009CDE;
+ }
+
+  .paypal .binary-alt-selected{
+    background-color: #003087;
+ }
+
+ .ebay .binary-main{
+    border: solid #3071A9;
+ }
+
+  .ebay .binary-alt{
+    border: solid  #5bc0de;
+ }
+
+  .ebay .binary-main-selected{
+    background-color:#3071A9;
+ }
+
+  .ebay .binary-alt-selected{
+    background-color: #5bc0de;
+ }
+
+
+
+ .binary-item{
+        border-radius: 18px;
+        border-style: solid;
+        border-color: white;
+        padding: 3px;
+        margin: 2px;
+        width: 190px;
+        min-height: 30px;
+        cursor:pointer;
+        float: left;
+        font-size: 16px;
+    }
+ 
+
+.binary-item-selected {
+
+   border-color: rgb(104,104,104) ; 
+}
+</style>
+    <div ng-controller="mainController">
+        <div class="container-fluid {{ question.group }}" style="height:550px;">
+            <div class="row  bg-image" style="height:280px">
+                 <div class="col-sm-8" >
+                        <h3>{{ question.text }}</h3>            
+                 </div>
+            </div>
+            <div class="row">
+                 <div class="col-sm-3 right-border">
+                        <h3 class="{{question.group}}-text-color">Select One</h3>
+        <div class="binary-item" ng-disabled="responded" ng-repeat="category in question.categories" ng-click="responded || categorySelected(category, $index) " ng-class="{'binary-item-selected':activeCategory==category }"> <span class="circle binary-{{$odd?'alt':'main'}} {{activeCategory==category ? $odd?'binary-alt-selected':'binary-main-selected': ''}}" ></span> {{category}}</div>
+                 </div>
+                 <div class="col-sm-4 ">
+                        <h3 class="{{question.group}}-text-color">Reason for your decision</h3>
+                        <textarea ng-disabled="!activeCategory" ng-show='!responded' class="form-control input-lg" style="height:120px;" placeholder="Type your reason here" ng-model="formData.text"></textarea>
+                        <p ng-show='responded'> {{formData.text}}</p>
+                 </div>
+                <div class="col-sm-4 " style="height:220px;position: relative;" ng-show='!responded'>
+                    <div class="vcenter">
+                        <button type="submit" ng-disabled="!activeCategory" class="btn btn-{{question.group}}" style="" ng-click="createResponse()">Submit</button>
+                    </div>
+                </div>
+                <div class="col-sm-4 phone" ng-show='responded'>
+                    <div id='pieHolder' class="bottom-border" style="height:320px; position: relative; top: 36px;">
+                        <nvd3-pie-chart
+                            data="pieData"
+                            id="responseChart"
+                            width="250"
+                            height="250"
+                            x="xFunction()"
+                            y="yFunction()"
+                            showLegend="false"
+                            legendradiobuttonmode = "false"
+                            pieLabelsOutside="false"
+                            showLabels="false"
+                           labelType="value"
+                           donut="true"
+                            donutRatio=".50"
+                           legendColor="colorFunction()"
+                            color="colorFunction()">
+                            <svg></svg>
+                        </nvd3-pie-chart>
+                    </div>
+                    <div class="resultsLegendItem {{category|classy}}" ng-repeat="category in question.categories" style="position: relative; top: -100px;">
+                    <span class="">{{responseCount(category)}}</span> {{category}}
+                    </div>
+ 
+            
+                 </div>
+            </div>
+
+</main>
+
+<% include footer %>

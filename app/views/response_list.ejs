@@ -1,0 +1,214 @@
+<% include header %>
+
+<script type="text/javascript">
+    var qid = '<%= qid %>';
+</script>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<main ng-app="journalQuestion">
+<script src="/js/quad.js"></script>
+
+    <style type="text/css">
+        #coverUp {
+            position: absolute;
+            top: 0px;
+            width: 680px;
+            left: 320px;
+            height: 550px;
+            background-color: rgba(207, 207, 207, .5);
+            z-index: 1000;
+        }
+        
+        .greyed-out {
+            background-color: rgb(237, 237, 237);
+        }
+        
+        .circle {
+            display: inline-block;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+        }
+        
+   
+        .select-item {
+            display: block;
+            width: 100%;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .dark-hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+        
+        body {
+            padding: 0px;
+        }
+        
+        .btn-paypal {
+            background-color: #FF8F1C;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-paypal:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .btn-ebay {
+            background-color: #F5AF02;
+            color: white;
+            height: 44px;
+            width: 225px;
+            font-size: 14px;
+        }
+        
+        .btn-ebay:hover {
+            color: white;
+            font-size: 15px;
+        }
+        
+        .quad {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-style: solid;
+            border-color: #bbb;
+            border-radius: 2px;
+            border-width: 1px;
+        }
+        
+        .vcenter {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+        }
+
+        .paypal-text-color{
+            color: #009CDE;
+        }
+
+                .ebay-text-color{
+            color: #3071A9;
+        }
+
+
+        .input-group-addon {
+            background-color: #F8F8F8;
+        }
+        .form-group {
+            margin-bottom: 0px;
+        }
+
+        .response-header{
+            line-height: 30px; 
+            display:block; 
+            width:100%; 
+            height: 30px; 
+            background-color: #A0A0A0;
+            padding: 0px 10px 0px 10px;
+            color: white;
+        }
+
+    </style>
+    <div ng-controller="mainController">
+        <div class="container-fluid {{ question.group }}" style="height:550px;">
+                    <div id="response-list" class="row">
+                        <div class="col-sm-3 " style="height:525px;">
+                        <div class="col-head">PayPal Here</div>
+                        <div class=" response-list"> 
+                            <table class="table ">
+                                <tr class="" ng-repeat="response in responses | catFilter:'PayPal Here'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-3" style="height:525px;">
+                         <div class="col-head col-head-alt">PayPal Standard</div>
+                        <div class=" response-list"> 
+                            <table class="table">
+                                <tr class="" ng-repeat="response in responses | catFilter:'PayPal Standard'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3" style="height:525px;">
+                         <div class="col-head">PayPal Pro</div>
+                        <div class=" response-list"> 
+                            <table class="table">
+                                <tr class="" ng-repeat="response in responses | catFilter:'PayPal Pro'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3" style="height:525px;">
+                         <div class="col-head col-head-alt">PayPal Credit</div>
+                        <div class=" response-list"> 
+                            <table class="table">
+                                <tr class="" ng-repeat="response in responses | catFilter:'PayPal Credit'"  ng-if="response.text.length > 0">
+                                    <td>
+                                        <span class="response-header">
+                                        <span > {{ response.votes }} Votes </span>
+                                        <span class="pull-right glyphicon {{ response.icon? response.icon : 'glyphicon-plus' }}" style="cursor:pointer; vertical-align:middle;  line-height: 30px; " aria-hidden="true" id="vote_{{response._id}}" ng-click='vote(response)' > </span>
+                                       
+                                        </span>
+                                        <p dd-text-collapse dd-text-collapse-max-length="110" dd-text-collapse-text="{{response.text}}"></p>
+                                        <span class='pull-right' style="cursor:pointer;">
+                                            <span class="text-{{ response.flags==0? 'muted' : 'danger' }} glyphicon glyphicon-flag" aria-hidden="true" id="flag_{{response._id}}" ng-click='flag(response)' ></span></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+    </div>
+</main>
+
+<% include footer %>

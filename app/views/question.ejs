@@ -146,9 +146,11 @@
                 <div class="col-sm-12">
                     <div class="legendItem" ng-repeat='category in question.categories' ng-click="legendClick(category)" ng-class="{'legend-selected':  activeCategory==category }"><span class="circle {{category|classy}}-bg" ></span> {{category}}</div>
                     <div class="legendItem" ng-click="legendClick('all')" ng-class="{'legend-selected':  activeCategory=='all' }"><span class="circle all-bg" ></span> All</div>
+                    
+                </div>
 
                 </div>
-                </div>
+                <div class="row" ng-show='responded'><div class="col-sm-12" style="padding-left:30px"> Select a category to filter the chart below.</div></div>
                     <div ng-if="question.type == 'pie'" id='pieHolder' style="height:460px; overflow:hidden" >
                         <nvd3-pie-chart
                             data="pieData"
